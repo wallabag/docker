@@ -1,0 +1,36 @@
+parameters:
+    database_driver: %env.database_driver%
+    database_host: %env.database_host%
+    database_port: %env.database_port%
+    database_name: %env.database_name%
+    database_user: %env.database_user%
+    database_password: %env.database_password%
+    database_path: "%kernel.root_dir%/../data/db/wallabag.sqlite"
+    database_table_prefix: wallabag_
+
+    test_database_driver: pdo_sqlite
+    test_database_host: 127.0.0.1
+    test_database_port: ~
+    test_database_name: ~
+    test_database_user: ~
+    test_database_password: ~
+    test_database_path: "%kernel.root_dir%/../data/db/wallabag_test.sqlite"
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    locale:            en
+
+    # A secret key that's used to generate certain security-related tokens
+    secret:            %env.secret%
+
+    # two factor stuff
+    twofactor_auth: true
+    twofactor_sender: no-reply@wallabag.org
+
+    # fosuser stuff
+    fosuser_confirmation: true
+
+    from_email: no-reply@wallabag.org
