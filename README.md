@@ -44,7 +44,7 @@ $ docker run --name wallabag --link wallabag-db:wallabag-db -e "MYSQL_ROOT_PASSW
 
 ## docker-compose
 
-Its a good way to use [docker-compose](https://docs.docker.com/compose/). Example:
+It's a good way to use [docker-compose](https://docs.docker.com/compose/). Example:
 
 ```
 version: '2'
