@@ -31,6 +31,7 @@
     - name: notify install for sqlite
       debug:
         msg='notify installation script if sqlite db does not exist'
+      changed_when: true
       notify: run install
       when: (database_driver == 'pdo_sqlite') and
             (wallabag_sqlite_db.stat.exists == False)
