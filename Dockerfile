@@ -31,12 +31,14 @@ RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/
       php7-mbstring@testing \
       php7-openssl@testing \
       php7-pdo_mysql@testing \
+      php7-pdo_pgsql@testing \
       php7-pdo_sqlite@testing \
       php7-phar@testing \
       php7-session@testing \
       php7-xml@testing \
       php7@testing\
       py-mysqldb \
+      py-psycopg2 \
       py-simplejson \
       s6 \
  && rm -rf /var/cache/apk/*

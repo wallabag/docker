@@ -11,6 +11,7 @@ Default login is `wallabag:wallabag`.
 ## Environment variables
 
 - `-e MYSQL_ROOT_PASSWORD=...` (needed for the mariadb container to initialise and for the entrypoint in the wallabag container to create a database and user if its not there)
+- `-e POSTGRES_PASSWORD=...` (needed for the posgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
 - `-e SYMFONY__ENV__DATABASE_DRIVER=...` (defaults to "pdo_sqlite", this sets the database driver to use)
 - `-e SYMFONY__ENV__DATABASE_HOST=...` (defaults to "127.0.0.1", if use mysql this should be the name of the mariadb container)
 - `-e SYMFONY__ENV__DATABASE_PORT=...` (port of the database host)
@@ -39,7 +40,16 @@ For using mariadb or mysql you have to define some environment variables with th
 
 ```
 $ docker run docker run --name wallabag-db -e "MYSQL_ROOT_PASSWORD=my-secret-pw" -d mariadb
-$ docker run --name wallabag --link wallabag-db:wallabag-db -e "MYSQL_ROOT_PASSWORD=my-secret-pw" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=3306" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -p 80:80 xsteadfastx/wallabag
+$ docker run --name wallabag --link wallabag-db:wallabag-db -e "MYSQL_ROOT_PASSWORD=my-secret-pw" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=3306" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -p 80:80 wallabag/wallabag
+```
+
+## postgresql
+
+For using postgresql you have to define some environment variables with the container. Example:
+
+```
+$ docker run docker run --name wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -d postgres
+$ docker run --name wallabag --link wallabag-db:wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=5432" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -p 80:80 wallabag/wallabag
 ```
 
 ## docker-compose
@@ -50,8 +60,7 @@ It's a good way to use [docker-compose](https://docs.docker.com/compose/). Examp
 version: '2'
 services:
   wallabag:
-    build:
-      context: wallabag/
+    image: wallabag/wallabag
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
       - SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql
