@@ -8,7 +8,12 @@ ENV WALLABAG_VERSION=2.0.5 \
     SYMFONY__ENV__DATABASE_NAME=symfony \
     SYMFONY__ENV__DATABASE_USER=root \
     SYMFONY__ENV__DATABASE_PASSWORD=~ \
-    SYMFONY__ENV__SECRET=ovmpmAWXRCabNlMgzlzFXDYmCFfzGv
+    SYMFONY__ENV__SECRET=ovmpmAWXRCabNlMgzlzFXDYmCFfzGv \
+    SYMFONY__ENV__MAILER_HOST=127.0.0.1 \
+    SYMFONY__ENV__MAILER_USER=~ \
+    SYMFONY__ENV__MAILER_PASSWORD=~ \
+    SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
+
 
 RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk add --update \
