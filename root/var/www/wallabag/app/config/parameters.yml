@@ -17,9 +17,9 @@ parameters:
     test_database_path: "%kernel.root_dir%/../data/db/wallabag_test.sqlite"
 
     mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_host:       %env.mailer_host%
+    mailer_user:       %env.mailer_user%
+    mailer_password:   %env.mailer_password%
 
     locale:            en
 
@@ -28,9 +28,9 @@ parameters:
 
     # two factor stuff
     twofactor_auth: true
-    twofactor_sender: no-reply@wallabag.org
+    twofactor_sender: %env.from_email%
 
     # fosuser stuff
     fosuser_confirmation: true
 
-    from_email: no-reply@wallabag.org
+    from_email: %env.from_email%

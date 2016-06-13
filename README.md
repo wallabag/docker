@@ -19,7 +19,10 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__DATABASE_USER=...` (defaults to "root", this is the name of the database user to use)
 - `-e SYMFONY__ENV__DATABASE_PASSWORD=...` (defaults to "~", this is the password of the database user to use)
 - `-e SYMFONY__ENV__SECRET=...` (defaults to "ovmpmAWXRCabNlMgzlzFXDYmCFfzGv")
-
+- `-e SYMFONY__ENV__MAILER_HOST=...`  defaults to "127.0.0.1", the SMTP host)
+- `-e SYMFONY__ENV__MAILER_USER=...` (defaults to "~", the SMTP user)
+- `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
+- `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "wallabag@example.com", the address wallabag uses for outgoing emails)
 ## sqlite
 
 The easiest way to start wallabag is to use the sqlite backend. You can spin that up with
@@ -69,6 +72,10 @@ services:
       - SYMFONY__ENV__DATABASE_NAME=wallabag
       - SYMFONY__ENV__DATABASE_USER=wallabag
       - SYMFONY__ENV__DATABASE_PASSWORD=wallapass
+      - SYMFONY__ENV__MAILER_HOST=127.0.0.1
+      - SYMFONY__ENV__MAILER_USER=~
+      - SYMFONY__ENV__MAILER_PASSWORD=~
+      - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
     ports:
       - "80"
   db:
@@ -78,6 +85,7 @@ services:
     volumes:
       - /opt/wallabag:/var/lib/mysql
 ```
+Note that you must fill out the mail related variables according to your mail config.
 
 ## nginx
 
