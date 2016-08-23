@@ -1,7 +1,7 @@
 FROM alpine:edge
 MAINTAINER Marvin Steadfast <marvin@xsteadfastx.org>
 
-ENV WALLABAG_VERSION=2.0.6 \
+ENV WALLABAG_VERSION=2.0.7 \
     SYMFONY__ENV__DATABASE_DRIVER=pdo_sqlite \
     SYMFONY__ENV__DATABASE_HOST=127.0.0.1 \
     SYMFONY__ENV__DATABASE_PORT=~ \
