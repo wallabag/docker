@@ -28,13 +28,13 @@ Default login is `wallabag:wallabag`.
 The easiest way to start wallabag is to use the sqlite backend. You can spin that up with
 
 ```
-$ docker run -p 80:80 xsteadfastx/wallabag
+$ docker run -p 80:80 wallabag/wallabag
 ```
 
 and point your browser to `http://localhost:80`. For persistent storage you should start the container with the a volume:
 
 ```
-$ docker run -v /opt/wallabag:/var/www/wallabag/data -p 80:80 xsteadfastx/wallabag
+$ docker run -v /opt/wallabag:/var/www/wallabag/data -p 80:80 wallabag/wallabag
 ```
 
 ## mariadb / mysql
