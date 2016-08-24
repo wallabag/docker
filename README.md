@@ -23,9 +23,10 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__MAILER_USER=...` (defaults to "~", the SMTP user)
 - `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "wallabag@example.com", the address wallabag uses for outgoing emails)
-## sqlite
 
-The easiest way to start wallabag is to use the sqlite backend. You can spin that up with
+## SQLite
+
+The easiest way to start wallabag is to use the SQLite backend. You can spin that up with
 
 ```
 $ docker run -p 80:80 wallabag/wallabag
@@ -37,18 +38,18 @@ and point your browser to `http://localhost:80`. For persistent storage you shou
 $ docker run -v /opt/wallabag:/var/www/wallabag/data -p 80:80 wallabag/wallabag
 ```
 
-## mariadb / mysql
+## MariaDB / MySQL
 
-For using mariadb or mysql you have to define some environment variables with the container. Example:
+For using MariaDB or MySQL you have to define some environment variables with the container. Example:
 
 ```
 $ docker run docker run --name wallabag-db -e "MYSQL_ROOT_PASSWORD=my-secret-pw" -d mariadb
 $ docker run --name wallabag --link wallabag-db:wallabag-db -e "MYSQL_ROOT_PASSWORD=my-secret-pw" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=3306" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -p 80:80 wallabag/wallabag
 ```
 
-## postgresql
+## PostgreSQL
 
-For using postgresql you have to define some environment variables with the container. Example:
+For using PostgreSQL you have to define some environment variables with the container. Example:
 
 ```
 $ docker run docker run --name wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -d postgres
@@ -85,6 +86,7 @@ services:
     volumes:
       - /opt/wallabag:/var/lib/mysql
 ```
+
 Note that you must fill out the mail related variables according to your mail config.
 
 ## nginx
