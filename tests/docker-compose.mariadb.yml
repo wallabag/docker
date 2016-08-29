@@ -1,0 +1,22 @@
+version: '2'
+services:
+  wallabag:
+    build:
+      context: ../
+    image: wallabag:mariadb
+    container_name: wallabag
+    environment:
+      - MYSQL_ROOT_PASSWORD=wallaroot
+      - SYMFONY__ENV__SECRET=F00B4R
+      - SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql
+      - SYMFONY__ENV__DATABASE_HOST=db
+      - SYMFONY__ENV__DATABASE_PORT=3306
+      - SYMFONY__ENV__DATABASE_NAME=wallabag
+      - SYMFONY__ENV__DATABASE_USER=wallabag
+      - SYMFONY__ENV__DATABASE_PASSWORD=wallapass
+    ports:
+      - "127.0.0.1:80:80"
+  db:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=wallaroot

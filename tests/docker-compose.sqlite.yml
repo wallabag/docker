@@ -1,0 +1,17 @@
+version: '2'
+services:
+  wallabag:
+    build:
+      context: ../
+    image: wallabag:sqlite
+    container_name: wallabag
+    environment:
+      - SYMFONY__ENV__DATABASE_DRIVER=pdo_sqlite
+      - SYMFONY__ENV__DATABASE_HOST=127.0.0.1
+      - SYMFONY__ENV__DATABASE_PORT=~
+      - SYMFONY__ENV__DATABASE_NAME=symfony
+      - SYMFONY__ENV__DATABASE_USER=root
+      - SYMFONY__ENV_DATABASE_PASSWORD=~
+      - SYMFONY__ENV__SECRET=F00B4R
+    ports:
+      - "127.0.0.1:80:80"
