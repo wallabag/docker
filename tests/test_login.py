@@ -12,3 +12,15 @@ def test_login_page():
     assert 'Password' in r.text
     assert 'Register' in r.text
     assert 'Username' in r.text
+
+
+def test_login():
+    with requests.Session() as s:
+
+        data = {
+            '_username': 'wallabag',
+            '_password': 'wallabag'
+        }
+
+        r = s.post(URL + '/login_check', data=data)
+        print(r.text)
