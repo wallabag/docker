@@ -1,5 +1,9 @@
 # What is wallabag?
 
+[![Build Status](https://travis-ci.org/wallabag/docker.svg?branch=master)](https://travis-ci.org/wallabag/docker)
+[![Docker Stars](https://img.shields.io/docker/stars/wallabag/wallabag.svg?maxAge=2592000)](https://hub.docker.com/r/wallabag/wallabag/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/wallabag/wallabag.svg?maxAge=2592000)](https://hub.docker.com/r/wallabag/wallabag/)
+
 [wallabag](https://www.wallabag.org/) is a self hostable application for saving web pages. Unlike other services, wallabag is free (as in freedom) and open source.
 
 With this application you will not miss content anymore. Click, save, read it when you want. It saves the content you select so that you can read it when you have time.
