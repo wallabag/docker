@@ -1,7 +1,7 @@
 FROM alpine:edge
 MAINTAINER Marvin Steadfast <marvin@xsteadfastx.org>
 
-ENV WALLABAG_VERSION=2.0.8 \
+ENV WALLABAG_VERSION=2.1.1 \
     SYMFONY__ENV__DATABASE_DRIVER=pdo_sqlite \
     SYMFONY__ENV__DATABASE_HOST=127.0.0.1 \
     SYMFONY__ENV__DATABASE_PORT=~ \
@@ -26,6 +26,8 @@ RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/
       nginx \
       pcre \
       php7 \
+      php7-amqp@testing \
+      php7-bcmath \
       php7-ctype@testing \
       php7-curl@testing \
       php7-dom@testing \
@@ -47,6 +49,7 @@ RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/
       py-psycopg2 \
       py-simplejson \
       s6 \
+      tar \
  && rm -rf /var/cache/apk/*
 
 RUN ln -s /usr/bin/php7 /usr/bin/php \

@@ -61,6 +61,15 @@ $ docker run --name wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "POSTGRES
 $ docker run --name wallabag --link wallabag-db:wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "POSTGRES_USER=my-super-user" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=5432" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -p 80:80 wallabag/wallabag
 ```
 
+## Redis
+
+To use redis support a linked redis container with the name `redis` is needed.
+
+ ```
+$ docker run -p 6379:6379 redis:alpine redis
+$ docker run -p 80:80 --link redis:redis wallabag/wallabag
+```
+
 ## docker-compose
 
 It's a good way to use [docker-compose](https://docs.docker.com/compose/). Example:
@@ -90,6 +99,8 @@ services:
       - MYSQL_ROOT_PASSWORD=wallaroot
     volumes:
       - /opt/wallabag:/var/lib/mysql
+  redis:
+    image: redis:alpine
 ```
 
 Note that you must fill out the mail related variables according to your mail config.
