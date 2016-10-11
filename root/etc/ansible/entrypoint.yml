@@ -122,12 +122,6 @@
         chdir: /var/www/wallabag
       notify: chown dir
 
-    - name: run migration
-      shell: php bin/console doctrine:migrations:migrate --env=prod
-      args:
-        chdir: /var/www/wallabag
-      notify: chown dir
-
     - name: chown dir
       file:
         path=/var/www/wallabag
