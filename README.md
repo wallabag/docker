@@ -37,7 +37,7 @@ The easiest way to start wallabag is to use the SQLite backend. You can spin tha
 $ docker run -p 80:80 wallabag/wallabag
 ```
 
-and point your browser to `http://localhost:80`. For persistent storage you should start the container with the a volume:
+and point your browser to `http://localhost:80`. For persistent storage you should start the container with a volume:
 
 ```
 $ docker run -v /opt/wallabag:/var/www/wallabag/data -p 80:80 wallabag/wallabag
