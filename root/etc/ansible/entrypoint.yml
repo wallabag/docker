@@ -21,9 +21,17 @@
         path={{ item }}
         state=directory
       with_items:
-        - /var/www/wallabag/data/db
+        - /var/www/wallabag/app
+        - /var/www/wallabag/app/config
+        - /var/www/wallabag/data
         - /var/www/wallabag/data/assets
+        - /var/www/wallabag/data/db
       notify: chown dir
+
+    - name: write parameters.yml
+      template:
+        src=templates/parameters.yml.j2
+        dest=/var/www/wallabag/app/config/parameters.yml
 
     - stat:
         path=/var/www/wallabag/data/db/wallabag.sqlite
