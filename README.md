@@ -66,7 +66,7 @@ $ docker run --name wallabag --link wallabag-db:wallabag-db -e "POSTGRES_PASSWOR
 To use redis support a linked redis container with the name `redis` is needed.
 
  ```
-$ docker run -p 6379:6379 redis:alpine redis
+$ docker run -p 6379:6379 --name redis redis:alpine
 $ docker run -p 80:80 --link redis:redis wallabag/wallabag
 ```
 
