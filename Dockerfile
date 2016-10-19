@@ -1,20 +1,8 @@
 FROM alpine:edge
 MAINTAINER Marvin Steadfast <marvin@xsteadfastx.org>
 
-ENV WALLABAG_VERSION=2.1.1 \
-    SYMFONY__ENV__DATABASE_DRIVER=pdo_sqlite \
-    SYMFONY__ENV__DATABASE_HOST=127.0.0.1 \
-    SYMFONY__ENV__DATABASE_PORT=~ \
-    SYMFONY__ENV__DATABASE_NAME=symfony \
-    SYMFONY__ENV__DATABASE_USER=root \
-    SYMFONY__ENV__DATABASE_PASSWORD=~ \
-    POSTGRES_USER=postgres \
-    SYMFONY__ENV__SECRET=ovmpmAWXRCabNlMgzlzFXDYmCFfzGv \
-    SYMFONY__ENV__MAILER_HOST=127.0.0.1 \
-    SYMFONY__ENV__MAILER_USER=~ \
-    SYMFONY__ENV__MAILER_PASSWORD=~ \
-    SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
-
+ENV WALLABAG_VERSION=2.1.2 \
+    POSTGRES_USER=postgres
 
 RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk add --update \
