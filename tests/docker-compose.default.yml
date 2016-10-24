@@ -1,0 +1,9 @@
+version: '2'
+services:
+  wallabag:
+    build:
+      context: ../
+    image: wallabag:default
+    container_name: wallabag
+    ports:
+      - "127.0.0.1:80:80"
