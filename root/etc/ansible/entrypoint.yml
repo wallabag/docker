@@ -14,6 +14,10 @@
     database_root_password_postgres: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
     database_user: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_USER')|default('root', true) }}"
     secret: "{{ lookup('env', 'SYMFONY__ENV__SECRET')|default('ovmpmAWXRCabNlMgzlzFXDYmCFfzGv', true) }}"
+    mailer_host: "{{ lookup('env', 'SYMFONY__ENV__MAILER_HOST')|default('127.0.0.1', true) }}"
+    mailer_user: "{{ lookup('env', 'SYMFONY__ENV__MAILER_USER')|default('~', true) }}"
+    mailer_password: "{{ lookup('env', 'SYMFONY__ENV__MAILER_PASSWORD')|default('~', true) }}"
+    from_email: "{{ lookup('env', 'SYMFONY__ENV__FROM_EMAIL')|default('wallabag@example.com', true) }}"
 
   tasks:
 
