@@ -10,9 +10,9 @@ parameters:
     database_socket: null
 
     mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_host:       {{ mailer_host }}
+    mailer_user:       {{ mailer_user }}
+    mailer_password:   {{ mailer_password }}
 
     locale:            en
 
@@ -27,7 +27,7 @@ parameters:
     fosuser_registration: true
     fosuser_confirmation: true
 
-    from_email: no-reply@wallabag.org
+    from_email: {{ from_email }}
 
     rss_limit: 50
 
