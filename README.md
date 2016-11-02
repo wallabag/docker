@@ -28,6 +28,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__MAILER_USER=...` (defaults to "~", the SMTP user)
 - `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "wallabag@example.com", the address wallabag uses for outgoing emails)
+- `-e SYMFONY__ENV__=FOSUSER_REGISTRATION...`(defaults to "true", enable or disable public user registration)
 
 ## SQLite
 

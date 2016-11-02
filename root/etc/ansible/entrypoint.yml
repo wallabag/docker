@@ -18,6 +18,7 @@
     mailer_user: "{{ lookup('env', 'SYMFONY__ENV__MAILER_USER')|default('~', true) }}"
     mailer_password: "{{ lookup('env', 'SYMFONY__ENV__MAILER_PASSWORD')|default('~', true) }}"
     from_email: "{{ lookup('env', 'SYMFONY__ENV__FROM_EMAIL')|default('wallabag@example.com', true) }}"
+    registration: "{{ lookup('env', 'SYMFONY__ENV__FOSUSER_REGISTRATION')|default('true', true) }}"
 
   tasks:
 
