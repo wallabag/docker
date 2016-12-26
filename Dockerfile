@@ -56,8 +56,6 @@ RUN cd /var/www/wallabag \
 
 RUN chown -R nobody:nobody /var/www/wallabag
 
-RUN chmod +x /entrypoint.sh
-
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["wallabag"]
