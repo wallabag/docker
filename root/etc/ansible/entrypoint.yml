@@ -13,6 +13,7 @@
     database_root_user_postgres: "{{ lookup('env', 'POSTGRES_USER') }}"
     database_root_password_postgres: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
     database_user: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_USER')|default('root', true) }}"
+    populate_database: "{{ lookup('env', 'POPULATE_DATABASE')|default(True, true) }}"
     secret: "{{ lookup('env', 'SYMFONY__ENV__SECRET')|default('ovmpmAWXRCabNlMgzlzFXDYmCFfzGv', true) }}"
     mailer_host: "{{ lookup('env', 'SYMFONY__ENV__MAILER_HOST')|default('127.0.0.1', true) }}"
     mailer_user: "{{ lookup('env', 'SYMFONY__ENV__MAILER_USER')|default('~', true) }}"
@@ -68,7 +69,8 @@
         login_user=root
         login_password="{{ database_root_password_mariadb }}"
       notify: run install
-      when: database_driver == 'pdo_mysql'
+      when: (database_driver == 'pdo_mysql') and
+            (populate_database == True)
 
     - name: add mariadb user
       mysql_user:
@@ -82,7 +84,8 @@
         login_password="{{ database_root_password_mariadb }}"
         state=present
       when: (database_driver == 'pdo_mysql') and
-            (database_user != 'root')
+            (database_user != 'root') and
+            (populate_database == True)
 
     - name: postgresql db
       postgresql_db:
@@ -93,7 +96,8 @@
         login_user="{{ database_root_user_postgres }}"
         login_password="{{ database_root_password_postgres }}"
       notify: run install
-      when: database_driver == 'pdo_pgsql'
+      when: (database_driver == 'pdo_pgsql') and 
+            (populate_database == True)
 
     - name: add postgresql user
       postgresql_user:
@@ -107,7 +111,8 @@
         login_password="{{ database_root_password_postgres }}"
         state=present
       when: (database_driver == 'pdo_pgsql') and
-            (database_user != 'postgres')
+            (database_user != 'postgres') and
+            (populate_database == True)
 
     - name: remove cache
       file:
