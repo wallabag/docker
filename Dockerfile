@@ -32,6 +32,7 @@ RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/
       php7-phar@testing \
       php7-session@testing \
       php7-xml@testing \
+      php7-zlib@testing \
       php7@testing\
       py-mysqldb \
       py-psycopg2 \
