@@ -138,10 +138,10 @@ server {
 }
 ```
 
-## Importer worker
+## Import worker
 
-To run the [async redis importer worker](http://doc.wallabag.org/en/master/developer/asynchronous.html#install-redis-for-asynchronous-tasks) use the following command:
+To run the [async redis import worker](http://doc.wallabag.org/en/master/developer/asynchronous.html#install-redis-for-asynchronous-tasks) use the following command:
 ```
 $ docker run --name wallabag --link wallabag-db:wallabag-db --link redis:redis -e <... your config variables here ...>  wallabag/wallabag import <type>
 ```
-Where type is one of pocket, readability, instapaper, wallabag_v1, wallabag_v2, firefox, chrome.
+Where `<type>` is one of pocket, readability, instapaper, wallabag_v1, wallabag_v2, firefox or chrome.
