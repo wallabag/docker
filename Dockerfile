@@ -1,7 +1,7 @@
 FROM alpine:edge
 MAINTAINER Marvin Steadfast <marvin@xsteadfastx.org>
 
-ENV WALLABAG_VERSION=2.1.6 \
+ENV WALLABAG_VERSION=2.2.0 \
     POSTGRES_USER=postgres
 
 RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
