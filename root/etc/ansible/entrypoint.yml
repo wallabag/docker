@@ -61,8 +61,6 @@
         port="{{ database_port }}"
       when: (database_driver == 'pdo_mysql') or
             (database_driver == 'pdo_pgsql')
-      tags:
-        - firstrun
 
     - name: add mariadb db
       mysql_db:
@@ -104,7 +102,7 @@
         login_user="{{ database_root_user_postgres }}"
         login_password="{{ database_root_password_postgres }}"
       notify: run install
-      when: (database_driver == 'pdo_pgsql') and 
+      when: (database_driver == 'pdo_pgsql') and
             (populate_database == True)
       tags:
         - firstrun
