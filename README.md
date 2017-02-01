@@ -72,12 +72,18 @@ $ docker run -p 6379:6379 --name redis redis:alpine
 $ docker run -p 80:80 --link redis:redis wallabag/wallabag
 ```
 
-## DB migration
+## Upgrading
 
-If there is a version upgrade that needs a database migration, you should start the container with the new image and run the migration command.
+If there is a version upgrade that needs a database migration. The most easy way to do is running the `migrate` command:
 
 ```
-$ docker exec -t wallabag /var/www/wallabag/bin/console doctrine:migrations:migrate --env=prod --no-interaction
+$ docker run --link wallabag-db:wallabag-db -e <... your config variables here ...>  wallabag/wallabag migrate
+```
+
+Or you can start the container with the new image and run the migration command manually:
+
+```
+$ docker exec -t NAME_OR_ID_OF_YOUR_WALLABAG_CONTAINER /var/www/wallabag/bin/console doctrine:migrations:migrate --env=prod --no-interaction
 ```
 
 ## docker-compose
