@@ -1,39 +1,41 @@
-FROM alpine:edge
+FROM alpine:3.5
 MAINTAINER Marvin Steadfast <marvin@xsteadfastx.org>
 
 ARG WALLABAG_VERSION=2.2.1
 ARG POSTGRES_USER=postgres
 
-RUN echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+RUN set -ex \
+ && echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk add --update \
       ansible \
       curl \
       git \
-      libwebp@testing \
+      libwebp \
       mariadb-client \
       nginx \
       pcre \
       php7 \
+      php7-amqp \
       php7-amqp@testing \
       php7-bcmath \
-      php7-ctype@testing \
-      php7-curl@testing \
-      php7-dom@testing \
-      php7-fpm@testing \
-      php7-gd@testing \
-      php7-gettext@testing \
-      php7-iconv@testing \
-      php7-json@testing \
-      php7-mbstring@testing \
-      php7-openssl@testing \
-      php7-pdo_mysql@testing \
-      php7-pdo_pgsql@testing \
-      php7-pdo_sqlite@testing \
-      php7-phar@testing \
-      php7-session@testing \
-      php7-xml@testing \
-      php7-zlib@testing \
-      php7@testing\
+      php7-ctype \
+      php7-curl \
+      php7-dom \
+      php7-fpm \
+      php7-gd \
+      php7-gettext \
+      php7-iconv \
+      php7-json \
+      php7-mbstring \
+      php7-openssl \
+      php7-pdo_mysql \
+      php7-pdo_pgsql \
+      php7-pdo_sqlite \
+      php7-phar \
+      php7-session \
+      php7-xml \
+      php7-zlib \
+      php7\
       py-mysqldb \
       py-psycopg2 \
       py-simplejson \
