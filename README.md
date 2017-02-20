@@ -91,7 +91,7 @@ $ docker exec -t NAME_OR_ID_OF_YOUR_WALLABAG_CONTAINER /var/www/wallabag/bin/con
 It's a good way to use [docker-compose](https://docs.docker.com/compose/). Example:
 
 ```
-version: '2'
+version: '3'
 services:
   wallabag:
     image: wallabag/wallabag

@@ -70,6 +70,7 @@
         login_port={{ database_port }}
         login_user=root
         login_password="{{ database_root_password_mariadb }}"
+        encoding="utf8mb4"
       notify: run install
       when: (database_driver == 'pdo_mysql') and
             (populate_database == True)

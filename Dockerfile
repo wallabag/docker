@@ -1,8 +1,8 @@
 FROM alpine:3.5
-MAINTAINER Marvin Steadfast <marvin@xsteadfastx.org>
+
+LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 
 ARG WALLABAG_VERSION=2.2.2
-ARG POSTGRES_USER=postgres
 
 RUN set -ex \
  && echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
@@ -41,23 +41,19 @@ RUN set -ex \
       py-simplejson \
       s6 \
       tar \
- && rm -rf /var/cache/apk/*
-
-RUN ln -s /usr/bin/php7 /usr/bin/php \
+ && rm -rf /var/cache/apk/* \
+ && ln -s /usr/bin/php7 /usr/bin/php \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
- && ln -sf /dev/stderr /var/log/nginx/error.log
-
-RUN curl -s http://getcomposer.org/installer | php \
- && mv composer.phar /usr/local/bin/composer
-
-RUN git clone --branch $WALLABAG_VERSION --depth 1 https://github.com/wallabag/wallabag.git /var/www/wallabag
+ && ln -sf /dev/stderr /var/log/nginx/error.log \
+ && curl -s http://getcomposer.org/installer | php \
+ && mv composer.phar /usr/local/bin/composer \
+ && git clone --branch $WALLABAG_VERSION --depth 1 https://github.com/wallabag/wallabag.git /var/www/wallabag
 
 COPY root /
 
 RUN cd /var/www/wallabag \
- && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist
-
-RUN chown -R nobody:nobody /var/www/wallabag
+ && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist \
+ && chown -R nobody:nobody /var/www/wallabag
 
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
