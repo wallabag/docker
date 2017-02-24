@@ -6,7 +6,7 @@ ARG WALLABAG_VERSION=2.2.2
 
 RUN set -ex \
  && echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && apk add --update \
+ && apk add --no-cache \
       ansible \
       curl \
       git \
@@ -15,7 +15,6 @@ RUN set -ex \
       nginx \
       pcre \
       php7 \
-      php7-amqp \
       php7-amqp@testing \
       php7-bcmath \
       php7-ctype \
@@ -41,7 +40,6 @@ RUN set -ex \
       py-simplejson \
       s6 \
       tar \
- && rm -rf /var/cache/apk/* \
  && ln -s /usr/bin/php7 /usr/bin/php \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
@@ -51,7 +49,8 @@ RUN set -ex \
 
 COPY root /
 
-RUN cd /var/www/wallabag \
+RUN set -ex \
+ && cd /var/www/wallabag \
  && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist \
  && chown -R nobody:nobody /var/www/wallabag
 
