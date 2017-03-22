@@ -5,6 +5,7 @@ LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 ARG WALLABAG_VERSION=2.2.2
 
 RUN set -ex \
+ && echo "@edge http://dl-4.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
  && echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk add --no-cache \
       ansible \
@@ -38,6 +39,7 @@ RUN set -ex \
       py-mysqldb \
       py-psycopg2 \
       py-simplejson \
+      rabbitmq-c@edge \
       s6 \
       tar \
  && ln -s /usr/bin/php7 /usr/bin/php \
