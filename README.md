@@ -15,21 +15,33 @@ Default login is `wallabag:wallabag`.
 ## Environment variables
 
 - `-e MYSQL_ROOT_PASSWORD=...` (needed for the mariadb container to initialise and for the entrypoint in the wallabag container to create a database and user if its not there)
+- `-e MYSQL_ROOT_PASSWORD_FILE=...` (points to a file, takes precedence over *MYSQL_ROOT_PASSWORD*)
 - `-e POSTGRES_PASSWORD=...` (needed for the posgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
+- `-e POSTGRES_PASSWORD_FILE=...` (points to a file, takes precedence over *POSTGRES_PASSWORD*)
 - `-e POSTGRES_USER=...` (needed for the posgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
+- `-e POSTGRES_USER_FILE=...` (points to a file, takes precedence over *POSTGRES_USER*)
 - `-e SYMFONY__ENV__DATABASE_DRIVER=...` (defaults to "pdo_sqlite", this sets the database driver to use)
 - `-e SYMFONY__ENV__DATABASE_HOST=...` (defaults to "127.0.0.1", if use mysql this should be the name of the mariadb container)
 - `-e SYMFONY__ENV__DATABASE_PORT=...` (port of the database host)
-- `-e SYMFONY__ENV__DATABASE_NAME=...`(defaults to "symfony", this is the name of the database to use)
+- `-e SYMFONY__ENV__DATABASE_NAME=...` (defaults to "symfony", this is the name of the database to use)
+- `-e SYMFONY__ENV__DATABASE_NAME_FILE=...` (points to a file, takes precedence over *SYMFONY__ENV__DATABASE_NAME*)
 - `-e SYMFONY__ENV__DATABASE_USER=...` (defaults to "root", this is the name of the database user to use)
+- `-e SYMFONY__ENV__DATABASE_USER_FILE=...` (points to a file, takes precedence over *SYMFONY__ENV__DATABASE_USER*)
 - `-e SYMFONY__ENV__DATABASE_PASSWORD=...` (defaults to "~", this is the password of the database user to use)
+- `-e SYMFONY__ENV__DATABASE_PASSWORD_FILE=...` (points to a file, takes precedence over *SYMFONY__ENV__DATABASE_PASSWORD*)
 - `-e SYMFONY__ENV__SECRET=...` (defaults to "ovmpmAWXRCabNlMgzlzFXDYmCFfzGv")
+- `-e SYMFONY__ENV__SECRET_FILE=...` (points to a file, takes precedence over *SYMFONY__ENV__SECRET*)
 - `-e SYMFONY__ENV__MAILER_HOST=...`  defaults to "127.0.0.1", the SMTP host)
 - `-e SYMFONY__ENV__MAILER_USER=...` (defaults to "~", the SMTP user)
 - `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
+- `-e SYMFONY__ENV__MAILER_PASSWORD_FILE=...` (points to a file, takes precedence over *SYMFONY__ENV__MAILER_PASSWORD*)
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "wallabag@example.com", the address wallabag uses for outgoing emails)
 - `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "true", enable or disable public user registration)
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
+
+The enviromnemt variables ending in *_FILE* point to a filename which contains the value. If always takes precedence over the ones without the *_FILE* suffix.
+When there is no valid file found, the 'normal' environment variable will still be used if it is defined, or else it's default value.
+These environment variables can be uses with docker secrets for instance which mounts the secrets as files under the directory */run/secrets/{secret_name}*.
 
 ## SQLite
 

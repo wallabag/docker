@@ -7,21 +7,109 @@
     database_driver: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_DRIVER')|default('pdo_sqlite', true) }}"
     database_host: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_HOST')|default('127.0.0.1', true) }}"
     database_name: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_NAME')|default('symfony', true) }}"
+    database_name_file: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_NAME_FILE') }}"
     database_password: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_PASSWORD')|default('~', true) }}"
+    database_password_file: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_PASSWORD_FILE') }}"
     database_port: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_PORT')|default('~', true) }}"
     database_root_password_mariadb: "{{ lookup('env', 'MYSQL_ROOT_PASSWORD') }}"
+    database_root_password_mariadb_file: "{{ lookup('env', 'MYSQL_ROOT_PASSWORD_FILE') }}"
     database_root_user_postgres: "{{ lookup('env', 'POSTGRES_USER') }}"
+    database_root_user_postgres_file: "{{ lookup('env', 'POSTGRES_USER_FILE') }}"
     database_root_password_postgres: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
+    database_root_password_postgres_file: "{{ lookup('env', 'POSTGRES_PASSWORD_FILE') }}"
     database_user: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_USER')|default('root', true) }}"
+    database_user_file: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_USER_FILE') }}"
     populate_database: "{{ lookup('env', 'POPULATE_DATABASE')|default(True, true) }}"
     secret: "{{ lookup('env', 'SYMFONY__ENV__SECRET')|default('ovmpmAWXRCabNlMgzlzFXDYmCFfzGv', true) }}"
+    secret_file: "{{ lookup('env', 'SYMFONY__ENV__SECRET_FILE') }}"
     mailer_host: "{{ lookup('env', 'SYMFONY__ENV__MAILER_HOST')|default('127.0.0.1', true) }}"
     mailer_user: "{{ lookup('env', 'SYMFONY__ENV__MAILER_USER')|default('~', true) }}"
     mailer_password: "{{ lookup('env', 'SYMFONY__ENV__MAILER_PASSWORD')|default('~', true) }}"
+    mailer_password_file: "{{ lookup('env', 'SYMFONY__ENV__MAILER_PASSWORD_FILE') }}"
     from_email: "{{ lookup('env', 'SYMFONY__ENV__FROM_EMAIL')|default('wallabag@example.com', true) }}"
     registration: "{{ lookup('env', 'SYMFONY__ENV__FOSUSER_REGISTRATION')|default('true', true) }}"
 
   tasks:
+
+    - name: get database_name_file
+      stat:
+        path: "{{ database_name_file }}"
+      register: e_database_name_file
+
+    - name: set database_name_file
+      set_fact:
+        database_name: "{{ lookup('file', database_name_file) }}"
+      when: e_database_name_file.stat.exists == True
+
+    - name: get database_password_file
+      stat:
+        path: "{{ database_password_file }}"
+      register: e_database_password_file
+
+    - name: set database_password_file
+      set_fact:
+        database_password: "{{ lookup('file', database_password_file) }}"
+      when: e_database_password_file.stat.exists == True
+
+    - name: get database_root_password_mariadb_file
+      stat:
+        path: "{{ database_root_password_mariadb_file }}"
+      register: e_database_root_password_mariadb_file
+
+    - name: set database_root_password_mariadb_file
+      set_fact:
+        database_root_password_mariadb: "{{ lookup('file', database_root_password_mariadb_file) }}"
+      when: e_database_root_password_mariadb_file.stat.exists == True
+
+    - name: get database_root_password_postgres_file
+      stat:
+        path: "{{ database_root_password_postgres_file }}"
+      register: e_database_root_password_postgres_file
+
+    - name: set database_root_password_postgres_file
+      set_fact:
+        database_root_password_postgres: "{{ lookup('file', database_root_password_postgres_file) }}"
+      when: e_database_root_password_postgres_file.stat.exists == True
+
+    - name: get database_root_user_postgres_file
+      stat:
+        path: "{{ database_root_user_postgres_file }}"
+      register: e_database_root_user_postgres_file
+
+    - name: set database_root_user_postgres_file
+      set_fact:
+        database_root_user_postgres: "{{ lookup('file', database_root_user_postgres_file) }}"
+      when: e_database_root_user_postgres_file.stat.exists == True
+
+    - name: get database_user_file
+      stat:
+        path: "{{ database_user_file }}"
+      register: e_database_user_file
+
+    - name: set database_user_file
+      set_fact:
+        database_user: "{{ lookup('file', database_user_file) }}"
+      when: e_database_user_file.stat.exists == True
+
+    - name: get secret_file
+      stat:
+        path: "{{ secret_file }}"
+      register: e_secret_file
+
+    - name: set secret_file
+      set_fact:
+        secret: "{{ lookup('file', secret_file) }}"
+      when: e_secret_file.stat.exists == True
+
+    - name: get mailer_password_file
+      stat:
+        path: "{{ mailer_password_file }}"
+      register: e_mailer_password_file
+
+    - name: set mailer_password_file
+      set_fact:
+        mailer_password: "{{ lookup('file', mailer_password_file) }}"
+      when: e_mailer_password_file.stat.exists == True
 
     - name: needed dirs
       file:
@@ -150,3 +238,4 @@
         recurse=yes
         owner=nobody
         group=nobody
+
