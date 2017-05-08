@@ -6,6 +6,7 @@ ARG WALLABAG_VERSION=2.2.2
 
 RUN set -ex \
  && echo "@edge http://dl-4.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
+ && echo "@testing http://dl-4.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
  && echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
  && apk add --no-cache \
       ansible \
