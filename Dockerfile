@@ -1,13 +1,13 @@
-FROM alpine:3.5
+FROM alpine:edge
 
 LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 
 ARG WALLABAG_VERSION=2.2.2
 
 RUN set -ex \
- && echo "@edge http://dl-4.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
- && echo "@testing http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
- && apk add --no-cache \
+ && apk update \
+ && apk upgrade --available \
+ && apk add \
       ansible \
       curl \
       git \
@@ -16,7 +16,7 @@ RUN set -ex \
       nginx \
       pcre \
       php7 \
-      php7-amqp@testing \
+      php7-amqp \
       php7-bcmath \
       php7-ctype \
       php7-curl \
@@ -33,16 +33,17 @@ RUN set -ex \
       php7-pdo_sqlite \
       php7-phar \
       php7-session \
+      php7-simplexml \
+      php7-tokenizer \
       php7-xml \
       php7-zlib \
-      php7\
       py-mysqldb \
       py-psycopg2 \
       py-simplejson \
-      rabbitmq-c@edge \
+      rabbitmq-c \
       s6 \
       tar \
- && ln -s /usr/bin/php7 /usr/bin/php \
+ && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
  && curl -s http://getcomposer.org/installer | php \
