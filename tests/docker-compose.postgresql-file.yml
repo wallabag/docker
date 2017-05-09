@@ -29,3 +29,6 @@ services:
     environment:
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
       - POSTGRES_USER_FILE=/run/secrets/postgres_user
+    volumes:
+      - ./secrets/database_password:/run/secrets/postgres_password:ro
+      - ./secrets/database_user:/run/secrets/postgres_user:ro
