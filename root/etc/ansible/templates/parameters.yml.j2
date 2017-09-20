@@ -8,14 +8,14 @@ parameters:
     database_path: "%kernel.root_dir%/../data/db/wallabag.sqlite"
     database_table_prefix: wallabag_
     database_socket: null
-    database_charset: utf8
+    database_charset: {{ database_charset }}
 
     mailer_transport:  smtp
     mailer_host:       {{ mailer_host }}
     mailer_user:       {{ mailer_user }}
     mailer_password:   {{ mailer_password }}
 
-    locale:            en
+    locale:            {{ locale }}
 
     # A secret key that's used to generate certain security-related tokens
     secret: {{ secret }}
