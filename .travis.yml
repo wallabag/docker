@@ -11,6 +11,9 @@ env:
   - DB_TYPE=sqlite
   - DB_TYPE=mariadb
   - DB_TYPE=postgresql
+  - DB_TYPE=sqlite-file
+  - DB_TYPE=mariadb-file
+  - DB_TYPE=postgresql-file
 
 install:
   - docker-compose -f tests/docker-compose.$DB_TYPE.yml build

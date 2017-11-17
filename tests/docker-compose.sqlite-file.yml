@@ -1,0 +1,22 @@
+version: '2'
+services:
+  wallabag:
+    build:
+      context: ../
+    image: wallabag:sqlite
+    container_name: wallabag
+    environment:
+      - SYMFONY__ENV__DATABASE_DRIVER=pdo_sqlite
+      - SYMFONY__ENV__DATABASE_HOST=127.0.0.1
+      - SYMFONY__ENV__DATABASE_PORT=~
+      - SYMFONY__ENV__DATABASE_NAME_FILE=/run/secrets/database_name
+      - SYMFONY__ENV__DATABASE_USER_FILE=/run/secrets/database_user
+      - SYMFONY__ENV__DATABASE_PASSWORD_FILE=/run/secrets/database_password
+      - SYMFONY__ENV__SECRET_FILE=/run/secrets/secret_file
+    ports:
+      - "127.0.0.1:80:80"
+    volumes:
+      - ./secrets/secret_file:/run/secrets/secret_file:ro
+      - ./secrets/database_name:/run/secrets/database_name:ro
+      - ./secrets/database_user:/run/secrets/database_user:ro
+      - ./secrets/database_password:/run/secrets/database_password:ro
