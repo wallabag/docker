@@ -54,7 +54,7 @@ $ docker run -p 80:80 wallabag/wallabag
 and point your browser to `http://localhost:80`. For persistent storage you should start the container with a volume:
 
 ```
-$ docker run -v /opt/wallabag:/var/www/wallabag/data -p 80:80 wallabag/wallabag
+$ docker run -v /opt/wallabag/data:/var/www/wallabag/data -v -/opt/wallabag/images:/var/www/wallabag/web/assets/images -p 80:80 wallabag/wallabag
 ```
 
 ## MariaDB / MySQL
@@ -121,12 +121,14 @@ services:
       - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
     ports:
       - "80"
+    volumes:
+      - /opt/wallabag/images:/var/www/wallabag/web/assets/images
   db:
     image: mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
     volumes:
-      - /opt/wallabag:/var/lib/mysql
+      - /opt/wallabag/data:/var/lib/mysql
   redis:
     image: redis:alpine
 ```

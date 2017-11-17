@@ -2,7 +2,7 @@ FROM alpine:edge
 
 LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 
-ARG WALLABAG_VERSION=2.2.2
+ARG WALLABAG_VERSION=2.2.3
 
 RUN set -ex \
  && apk update \
@@ -46,7 +46,7 @@ RUN set -ex \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
- && curl -s http://getcomposer.org/installer | php \
+ && curl -s https://getcomposer.org/installer | php \
  && mv composer.phar /usr/local/bin/composer \
  && git clone --branch $WALLABAG_VERSION --depth 1 https://github.com/wallabag/wallabag.git /var/www/wallabag
 
