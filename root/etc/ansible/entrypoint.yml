@@ -20,6 +20,7 @@
     mailer_password: "{{ lookup('env', 'SYMFONY__ENV__MAILER_PASSWORD')|default('~', true) }}"
     from_email: "{{ lookup('env', 'SYMFONY__ENV__FROM_EMAIL')|default('wallabag@example.com', true) }}"
     registration: "{{ lookup('env', 'SYMFONY__ENV__FOSUSER_REGISTRATION')|default('true', true) }}"
+    domain_name: "{{ lookup('env', 'SYMFONY__ENV__DOMAIN_NAME')|default('https://your-wallabag-url-instance.com', true) }}"
 
   tasks:
 
