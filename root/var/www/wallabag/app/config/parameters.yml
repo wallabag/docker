@@ -13,6 +13,8 @@ parameters:
 
     domain_name: https://your-wallabag-url-instance.com
 
+    domain_name: https://your-wallabag-url-instance.com
+
     test_database_driver: pdo_sqlite
     test_database_host: 127.0.0.1
     test_database_port: ~
