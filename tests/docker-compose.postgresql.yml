@@ -18,7 +18,7 @@ services:
     ports:
       - "127.0.0.1:80:80"
   db:
-    image: postgres
+    image: postgres:9.6
     environment:
       - POSTGRES_PASSWORD=my-secret-pw
       - POSTGRES_USER=my-super-user

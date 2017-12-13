@@ -10,6 +10,8 @@ parameters:
     database_socket: null
     database_charset: utf8
 
+    domain_name: {{ domain_name }}
+
     mailer_transport:  smtp
     mailer_host:       {{ mailer_host }}
     mailer_user:       {{ mailer_user }}
@@ -45,6 +47,3 @@ parameters:
     redis_port: 6379
     redis_path: null
     redis_password: null
-
-    # sites credentials
-    sites_credentials: {}

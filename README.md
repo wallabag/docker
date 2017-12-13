@@ -29,6 +29,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "wallabag@example.com", the address wallabag uses for outgoing emails)
 - `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "true", enable or disable public user registration)
+- `-e SYMFONY__ENV__DOMAIN_NAME=...`  defaults to "https://your-wallabag-url-instance.com", the URL of your wallabag instance)
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
 
 ## SQLite
@@ -59,7 +60,7 @@ $ docker run --name wallabag --link wallabag-db:wallabag-db -e "MYSQL_ROOT_PASSW
 For using PostgreSQL you have to define some environment variables with the container. Example:
 
 ```
-$ docker run --name wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "POSTGRES_USER=my-super-user" -d postgres
+$ docker run --name wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "POSTGRES_USER=my-super-user" -d postgres:9.6
 $ docker run --name wallabag --link wallabag-db:wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "POSTGRES_USER=my-super-user" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=5432" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -p 80:80 wallabag/wallabag
 ```
 
