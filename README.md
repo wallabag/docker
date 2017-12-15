@@ -29,6 +29,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "wallabag@example.com", the address wallabag uses for outgoing emails)
 - `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "true", enable or disable public user registration)
+- `-e SYMFONY__ENV__FOSUSER_CONFIRMATION=...`(defaults to "true", enable or disable registration confirmation)
 - `-e SYMFONY__ENV__DOMAIN_NAME=...`  defaults to "https://your-wallabag-url-instance.com", the URL of your wallabag instance)
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
 
