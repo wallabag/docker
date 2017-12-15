@@ -1,14 +1,14 @@
 parameters:
-    database_driver: pdo_sqlite
-    database_host: 127.0.0.1
-    database_port: ~
-    database_name: symfony
-    database_user: root
-    database_password: ~
-    database_path: "%kernel.root_dir%/../data/db/wallabag.sqlite"
+    database_driver: pdo_mysql
+    database_host: db
+    database_port: 3306
+    database_name: wallabag
+    database_user: wallabag
+    database_password: wallapass
+    database_path: null
     database_table_prefix: wallabag_
     database_socket: null
-    database_charset: utf8
+    database_charset: utf8mb4
 
     domain_name: https://your-wallabag-url-instance.com
 

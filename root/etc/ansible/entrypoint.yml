@@ -4,16 +4,16 @@
 
   vars:
 
-    database_driver: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_DRIVER')|default('pdo_sqlite', true) }}"
-    database_host: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_HOST')|default('127.0.0.1', true) }}"
-    database_name: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_NAME')|default('symfony', true) }}"
-    database_password: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_PASSWORD')|default('~', true) }}"
+    database_driver: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_DRIVER')|default('pdo_mysql', true) }}"
+    database_host: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_HOST')|default('db', true) }}"
+    database_name: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_NAME')|default('wallabag', true) }}"
+    database_password: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_PASSWORD')|default('wallapass', true) }}"
     database_port: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_PORT')|default('~', true) }}"
     database_root_password_mariadb: "{{ lookup('env', 'MYSQL_ROOT_PASSWORD') }}"
     database_root_user_postgres: "{{ lookup('env', 'POSTGRES_USER') }}"
     database_root_password_postgres: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
-    database_user: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_USER')|default('root', true) }}"
-    database_charset: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_CHARSET')|default('utf8', true) }}"
+    database_user: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_USER')|default('wallabag', true) }}"
+    database_charset: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_CHARSET')|default('utf8mb4', true) }}"
     populate_database: "{{ lookup('env', 'POPULATE_DATABASE')|default(True, true) }}"
     locale: "{{ lookup('env', 'SYMFONY__ENV__LOCALE')|default('en', true) }}"
     secret: "{{ lookup('env', 'SYMFONY__ENV__SECRET')|default('ovmpmAWXRCabNlMgzlzFXDYmCFfzGv', true) }}"
