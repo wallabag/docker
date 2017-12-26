@@ -9,6 +9,7 @@ parameters:
     database_table_prefix: wallabag_
     database_socket: null
     database_charset: utf8
+    database_driver_class: null
 
     domain_name: https://your-wallabag-url-instance.com
 
