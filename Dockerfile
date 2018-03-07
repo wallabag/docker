@@ -50,6 +50,8 @@ RUN set -ex \
  && mv composer.phar /usr/local/bin/composer \
  && git clone --branch $WALLABAG_VERSION --depth 1 https://github.com/wallabag/wallabag.git /var/www/wallabag
 
+RUN mkdir -p /var/run
+
 COPY root /
 
 RUN set -ex \
