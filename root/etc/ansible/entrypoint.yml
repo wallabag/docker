@@ -5,6 +5,7 @@
   vars:
 
     database_driver: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_DRIVER')|default('pdo_sqlite', true) }}"
+    database_driver_class: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_DRIVER_CLASS')|default('~', true) }}"
     database_host: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_HOST')|default('127.0.0.1', true) }}"
     database_name: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_NAME')|default('symfony', true) }}"
     database_password: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_PASSWORD')|default('~', true) }}"
@@ -116,6 +117,7 @@
       postgresql_user:
         name="{{ database_user }}"
         password="{{ database_password }}"
+        encrypted=true
         db={{ database_name }}
         priv=ALL
         login_host="{{ database_host }}"
