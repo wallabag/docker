@@ -24,6 +24,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__DATABASE_NAME=...`(defaults to "symfony", this is the name of the database to use)
 - `-e SYMFONY__ENV__DATABASE_USER=...` (defaults to "root", this is the name of the database user to use)
 - `-e SYMFONY__ENV__DATABASE_PASSWORD=...` (defaults to "~", this is the password of the database user to use)
+- `-e SYMFONY__ENV__DATABASE_CHARSET=...` (defaults to utf8, this is the database charset to use)
 - `-e SYMFONY__ENV__SECRET=...` (defaults to "ovmpmAWXRCabNlMgzlzFXDYmCFfzGv")
 - `-e SYMFONY__ENV__MAILER_HOST=...`  defaults to "127.0.0.1", the SMTP host)
 - `-e SYMFONY__ENV__MAILER_USER=...` (defaults to "~", the SMTP user)
@@ -54,7 +55,7 @@ For using MariaDB or MySQL you have to define some environment variables with th
 
 ```
 $ docker run --name wallabag-db -e "MYSQL_ROOT_PASSWORD=my-secret-pw" -d mariadb
-$ docker run --name wallabag --link wallabag-db:wallabag-db -e "MYSQL_ROOT_PASSWORD=my-secret-pw" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=3306" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -p 80:80 wallabag/wallabag
+$ docker run --name wallabag --link wallabag-db:wallabag-db -e "MYSQL_ROOT_PASSWORD=my-secret-pw" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=3306" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -e "SYMFONY__ENV__DATABASE_CHARSET=utf8mb4" -p 80:80 wallabag/wallabag
 ```
 
 ## PostgreSQL
@@ -106,6 +107,7 @@ services:
       - SYMFONY__ENV__DATABASE_NAME=wallabag
       - SYMFONY__ENV__DATABASE_USER=wallabag
       - SYMFONY__ENV__DATABASE_PASSWORD=wallapass
+      - SYMFONY__ENV__DATABASE_CHARSET=utf8mb4
       - SYMFONY__ENV__MAILER_HOST=127.0.0.1
       - SYMFONY__ENV__MAILER_USER=~
       - SYMFONY__ENV__MAILER_PASSWORD=~
