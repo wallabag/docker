@@ -3,6 +3,7 @@ FROM alpine:edge
 LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 
 ARG WALLABAG_VERSION=2.3.3
+ARG PHP_MEMORY_LIMIT=128M
 
 RUN set -ex \
  && apk update \
@@ -46,6 +47,7 @@ RUN set -ex \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
+ && sed -i "s/memory_limit\s*=.*/memory_limit=${PHP_MEMORY_LIMIT}/g" /etc/php7/php.ini \
  && curl -s https://getcomposer.org/installer | php \
  && mv composer.phar /usr/local/bin/composer \
  && git clone --branch $WALLABAG_VERSION --depth 1 https://github.com/wallabag/wallabag.git /var/www/wallabag
