@@ -18,5 +18,6 @@ services:
       - "127.0.0.1:80:80"
   db:
     image: mariadb
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --character-set-client-handshake=FALSE
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
