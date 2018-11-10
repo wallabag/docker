@@ -131,9 +131,6 @@
       tags:
         - firstrun
 
-    - name: remove cache
-      shell: su -c "rm -rf /var/www/wallabag/var/cache"
-
     - name: run composer
       shell: SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist
       args:
