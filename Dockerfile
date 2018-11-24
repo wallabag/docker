@@ -37,6 +37,8 @@ RUN set -ex \
       php7-tokenizer \
       php7-xml \
       php7-zlib \
+      php7-sockets \
+      php7-xmlreader \
       py-mysqldb \
       py-psycopg2 \
       py-simplejson \
