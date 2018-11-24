@@ -2,7 +2,7 @@ FROM alpine:latest
 
 LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 
-ARG WALLABAG_VERSION=2.3.3
+ARG WALLABAG_VERSION=2.3.4
 
 RUN set -ex \
  && apk update \
@@ -37,6 +37,8 @@ RUN set -ex \
       php7-tokenizer \
       php7-xml \
       php7-zlib \
+      php7-sockets \
+      php7-xmlreader \
       py-mysqldb \
       py-psycopg2 \
       py-simplejson \
