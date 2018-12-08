@@ -74,7 +74,7 @@ $ docker run --name wallabag --link wallabag-db:wallabag-db -e "POSTGRES_PASSWOR
 
 ## Redis
 
-To use redis with a linked redis container with the name `redis` is needed and none of the `REDIS` environmental variables are needed:
+To use redis with a Docker link, a redis container with the name `redis` is needed and none of the `REDIS` environmental variables are needed:
 
  ```
 $ docker run -p 6379:6379 --name redis redis:alpine
