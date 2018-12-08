@@ -25,6 +25,11 @@
     registration: "{{ lookup('env', 'SYMFONY__ENV__FOSUSER_REGISTRATION')|default('true', true) }}"
     registration_mail_confirmation: "{{ lookup('env', 'SYMFONY__ENV__FOSUSER_CONFIRMATION')|default('true', true) }}"
     domain_name: "{{ lookup('env', 'SYMFONY__ENV__DOMAIN_NAME')|default('https://your-wallabag-url-instance.com', true) }}"
+    redis_scheme: "{{ lookup('env', 'SYMFONY__ENV__REDIS_SCHEME')|default('tcp', true) }}"
+    redis_host: "{{ lookup('env', 'SYMFONY__ENV__REDIS_HOST')|default('redis', true) }}"
+    redis_port: "{{ lookup('env', 'SYMFONY__ENV__REDIS_PORT')|default('6379', true) }}"
+    redis_path: "{{ lookup('env', 'SYMFONY__ENV__REDIS_PATH')|default('~', true) }}"
+    redis_password: "{{ lookup('env', 'SYMFONY__ENV__REDIS_PASSWORD')|default('~', true) }}"
 
   tasks:
 

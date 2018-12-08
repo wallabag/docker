@@ -33,6 +33,11 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "true", enable or disable public user registration)
 - `-e SYMFONY__ENV__FOSUSER_CONFIRMATION=...`(defaults to "true", enable or disable registration confirmation)
 - `-e SYMFONY__ENV__DOMAIN_NAME=...`  defaults to "https://your-wallabag-url-instance.com", the URL of your wallabag instance)
+- `-e SYMFONY__ENV__REDIS_SCHEME=...` (defaults to "tcp", protocol to use to communicate with the target server (tcp, unix, or http))
+- `-e SYMFONY__ENV__REDIS_HOST=...` (defaults to "redis", IP or hostname of the target server)
+- `-e SYMFONY__ENV__REDIS_PORT=...` (defaults to "6379", port of the target host)
+- `-e SYMFONY__ENV__REDIS_PATH=...`(defaults to "~", path of the unix socket file)
+- `-e SYMFONY__ENV__REDIS_PASSWORD=...` (defaults to "~", this is the password defined in the Redis server configuration)
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
 
 ## SQLite
@@ -69,11 +74,17 @@ $ docker run --name wallabag --link wallabag-db:wallabag-db -e "POSTGRES_PASSWOR
 
 ## Redis
 
-To use redis support a linked redis container with the name `redis` is needed.
+To use redis with a linked redis container with the name `redis` is needed and none of the `REDIS` environmental variables are needed:
 
  ```
 $ docker run -p 6379:6379 --name redis redis:alpine
 $ docker run -p 80:80 --link redis:redis wallabag/wallabag
+```
+
+To use redis with an external redis host, set the appropriate environmental variables. Example:
+
+```
+$ docker run -p 80:80 -e "SYMFONY__ENV__REDIS_HOST=my.server.hostname" -e "SYMFONY__ENV__REDIS_PASSWORD=my-secret-pw" wallabag/wallabag
 ```
 
 ## Upgrading

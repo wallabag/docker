@@ -43,8 +43,8 @@ parameters:
     rabbitmq_prefetch_count: 10
 
     # Redis processing
-    redis_scheme: tcp
-    redis_host: redis
-    redis_port: 6379
-    redis_path: null
-    redis_password: null
+    redis_scheme: {{ redis_scheme }}
+    redis_host: {{ redis_host }}
+    redis_port: {{ redis_port }}
+    redis_path: {{ redis_path }}
+    redis_password: {{ redis_password }}
