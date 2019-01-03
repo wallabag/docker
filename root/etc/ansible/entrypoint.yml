@@ -140,6 +140,7 @@
       file:
         path=/var/www/wallabag/var/cache
         state=absent
+        recurse=yes
 
     - name: run composer
       shell: SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist
