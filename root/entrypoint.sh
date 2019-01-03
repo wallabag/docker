@@ -9,20 +9,15 @@ provisioner () {
 }
 
 if [ "$1" = "wallabag" ];then
-    provisioner
-    exec s6-svscan /etc/s6/
+    provisioner && exec s6-svscan /etc/s6/
 fi
 
 if [ "$1" = "import" ];then
-    provisioner --skip-tags=firstrun
-    cd /var/www/wallabag/
-    exec su -c "bin/console wallabag:import:redis-worker -e=prod $2 -vv" -s /bin/sh nobody
+    provisioner --skip-tags=firstrun && cd /var/www/wallabag/ && exec su -c "bin/console wallabag:import:redis-worker -e=prod $2 -vv" -s /bin/sh nobody
 fi
 
 if [ "$1" = "migrate" ];then
-    provisioner
-    cd /var/www/wallabag/
-    exec su -c "bin/console doctrine:migrations:migrate --env=prod --no-interaction" -s /bin/sh nobody
+    provisioner && cd /var/www/wallabag/ && exec su -c "bin/console doctrine:migrations:migrate --env=prod --no-interaction" -s /bin/sh nobody
 fi
 
 exec "$@"
