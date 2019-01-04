@@ -39,6 +39,7 @@ RUN set -ex \
       php7-zlib \
       php7-sockets \
       php7-xmlreader \
+      php7-tidy \
       py-mysqldb \
       py-psycopg2 \
       py-simplejson \
