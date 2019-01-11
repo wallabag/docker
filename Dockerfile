@@ -2,7 +2,7 @@ FROM alpine:latest
 
 LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 
-ARG WALLABAG_VERSION=2.3.5
+ARG WALLABAG_VERSION=2.3.6
 
 RUN set -ex \
  && apk update \
