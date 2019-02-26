@@ -46,6 +46,7 @@ RUN set -ex \
       rabbitmq-c \
       s6 \
       tar \
+      tzdata \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
