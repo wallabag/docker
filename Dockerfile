@@ -2,7 +2,7 @@ FROM alpine:latest
 
 LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 
-ARG WALLABAG_VERSION=2.3.6
+ARG WALLABAG_VERSION=2.3.7
 
 RUN set -ex \
  && apk update \
@@ -58,7 +58,7 @@ COPY root /
 
 RUN set -ex \
  && cd /var/www/wallabag \
- && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist \
+ && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist --no-progress \
  && chown -R nobody:nobody /var/www/wallabag
 
 EXPOSE 80
