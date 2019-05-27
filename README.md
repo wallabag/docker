@@ -15,7 +15,7 @@ Default login is `wallabag:wallabag`.
 ## Environment variables
 
 - `-e MYSQL_ROOT_PASSWORD=...` (needed for the mariadb container to initialise and for the entrypoint in the wallabag container to create a database and user if its not there)
-- `-e POSTGRES_PASSWORD=...` (needed for the posgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
+- `-e POSTGRES_PASSWORD=...` (needed for the postgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
 - `-e POSTGRES_USER=...` (needed for the posgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
 - `-e SYMFONY__ENV__DATABASE_DRIVER=...` (defaults to "pdo_sqlite", this sets the database driver to use)
 - `-e SYMFONY__ENV__DATABASE_DRIVER_CLASS=...` (sets the database driver class to use)
