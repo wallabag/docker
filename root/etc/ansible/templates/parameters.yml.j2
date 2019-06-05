@@ -13,10 +13,13 @@ parameters:
 
     domain_name: {{ domain_name }}
 
-    mailer_transport:  smtp
-    mailer_host:       {{ mailer_host }}
+    mailer_transport:  {{ mailer_transport }}
     mailer_user:       {{ mailer_user }}
     mailer_password:   {{ mailer_password }}
+    mailer_host:       {{ mailer_host }}
+    mailer_port:       {{ mailer_port }}
+    mailer_encryption: {{ mailer_encryption }}
+    mailer_auth_mode:  {{ mailer_auth_mode }}
 
     locale:            {{ locale }}
 
