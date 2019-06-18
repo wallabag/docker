@@ -39,6 +39,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__REDIS_PORT=...` (defaults to "6379", port of the target host)
 - `-e SYMFONY__ENV__REDIS_PATH=...`(defaults to "~", path of the unix socket file)
 - `-e SYMFONY__ENV__REDIS_PASSWORD=...` (defaults to "~", this is the password defined in the Redis server configuration)
+- `-e SYMFONY__ENV__SENTRY_DSN=...` (defaults to "~", this is the data source name for sentry)
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
 
 ## SQLite
