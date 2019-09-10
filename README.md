@@ -43,6 +43,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__SENTRY_DSN=...` (defaults to "~", this is the data source name for sentry)
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
 - `-e SYMFONY__ENV__SERVER_NAME=...` (defaults to "Your wallabag instance". Specifies a user-friendly name for the 2FA issuer)
+- `-e PHP_MEMORY_LIMIT_MB=...`(defaults to "128". Amount of Memory in MB for PHP process. Useful to allow bigger import)
 
 ## SQLite
 
