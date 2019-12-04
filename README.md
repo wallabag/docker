@@ -30,10 +30,10 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__MAILER_HOST=...`  (defaults to "127.0.0.1", the SMTP host)
 - `-e SYMFONY__ENV__MAILER_USER=...` (defaults to "~", the SMTP user)
 - `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
-- `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "wallabag@example.com", the address wallabag uses for outgoing emails)
+- `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "`wallabag@example.com`", the address wallabag uses for outgoing emails)
 - `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "true", enable or disable public user registration)
 - `-e SYMFONY__ENV__FOSUSER_CONFIRMATION=...`(defaults to "true", enable or disable registration confirmation)
-- `-e SYMFONY__ENV__DOMAIN_NAME=...`  defaults to "https://your-wallabag-url-instance.com", the URL of your wallabag instance)
+- `-e SYMFONY__ENV__DOMAIN_NAME=...`  defaults to "`https://your-wallabag-url-instance.com`", the URL of your wallabag instance)
 - `-e SYMFONY__ENV__REDIS_SCHEME=...` (defaults to "tcp", protocol to use to communicate with the target server (tcp, unix, or http))
 - `-e SYMFONY__ENV__REDIS_HOST=...` (defaults to "redis", IP or hostname of the target server)
 - `-e SYMFONY__ENV__REDIS_PORT=...` (defaults to "6379", port of the target host)
@@ -125,7 +125,7 @@ services:
       - SYMFONY__ENV__MAILER_USER=~
       - SYMFONY__ENV__MAILER_PASSWORD=~
       - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
-      - SYMFONY__ENV__DOMAIN_NAME=your-wallabag-url-instance.com
+      - SYMFONY__ENV__DOMAIN_NAME=https://your-wallabag-url-instance.com
     ports:
       - "80"
     volumes:
