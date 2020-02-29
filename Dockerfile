@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.10
 
 LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 
@@ -43,6 +43,7 @@ RUN set -ex \
       php7-sockets \
       php7-xmlreader \
       php7-tidy \
+      php7-intl \
       py-mysqldb \
       py-psycopg2 \
       py-simplejson \
