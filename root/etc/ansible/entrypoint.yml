@@ -35,6 +35,7 @@
     redis_path: "{{ lookup('env', 'SYMFONY__ENV__REDIS_PATH')|default('~', true) }}"
     redis_password: "{{ lookup('env', 'SYMFONY__ENV__REDIS_PASSWORD')|default('~', true) }}"
     sentry_dsn: "{{ lookup('env', 'SYMFONY__ENV__SENTRY_DSN')|default('~', true) }}"
+    php_memory_limit: "{{ lookup('env', 'PHP_MEMORY_LIMIT_MB')|default('128', true) }}"
 
   tasks:
 
@@ -56,6 +57,11 @@
       template:
         src=templates/parameters.yml.j2
         dest=/var/www/wallabag/app/config/parameters.yml
+
+    - name: write php.ini
+      template:
+        src=templates/php.ini.j2
+        dest=/etc/php7/php.ini
 
     - stat:
         path=/var/www/wallabag/data/db/wallabag.sqlite

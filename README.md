@@ -41,6 +41,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__REDIS_PASSWORD=...` (defaults to "~", this is the password defined in the Redis server configuration)
 - `-e SYMFONY__ENV__SENTRY_DSN=...` (defaults to "~", this is the data source name for sentry)
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
+- `-e PHP_MEMORY_LIMIT_MB=...`(defaults to "128". Amount of Memory in MB for PHP process. Useful to allow bigger import)
 
 ## SQLite
 
