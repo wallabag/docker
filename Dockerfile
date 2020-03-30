@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:3.11.5
 
 LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
 
