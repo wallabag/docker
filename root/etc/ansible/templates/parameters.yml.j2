@@ -27,8 +27,8 @@ parameters:
     secret: {{ secret }}
 
     # two factor stuff
-    twofactor_auth: true
-    twofactor_sender: no-reply@wallabag.org
+    twofactor_auth: {{ twofactor_auth }}
+    twofactor_sender: {{ twofactor_sender }}
 
     # fosuser stuff
     fosuser_registration: {{ registration }}

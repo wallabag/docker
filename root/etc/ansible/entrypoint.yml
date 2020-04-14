@@ -26,6 +26,8 @@
     mailer_encryption: "{{ lookup('env', 'SYMFONY__ENV__MAILER_ENCRYPTION')|default('~', true) }}"
     mailer_auth_mode: "{{ lookup('env', 'SYMFONY__ENV__MAILER_AUTH_MODE')|default('~', true) }}"
     from_email: "{{ lookup('env', 'SYMFONY__ENV__FROM_EMAIL')|default('wallabag@example.com', true) }}"
+    twofactor_auth: "{{ lookup('env', 'SYMFONY__ENV__TWOFACTOR_AUTH')|default('true', true) }}"
+    twofactor_sender: "{{ lookup('env', 'SYMFONY__ENV__TWOFACTOR_SENDER')|default('no-reply@wallabag.org', true) }}"
     registration: "{{ lookup('env', 'SYMFONY__ENV__FOSUSER_REGISTRATION')|default('true', true) }}"
     registration_mail_confirmation: "{{ lookup('env', 'SYMFONY__ENV__FOSUSER_CONFIRMATION')|default('true', true) }}"
     domain_name: "{{ lookup('env', 'SYMFONY__ENV__DOMAIN_NAME')|default('https://your-wallabag-url-instance.com', true) }}"
