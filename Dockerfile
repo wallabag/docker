@@ -11,7 +11,7 @@ RUN set -ex \
  && apk update \
  && apk upgrade --available \
  && apk add \
-      ansible=2.9.9-r0 \
+      ansible=2.7.17-r0 \
       curl \
       git \
       libwebp \
