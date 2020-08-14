@@ -111,37 +111,17 @@
       tags:
         - firstrun
 
-    - name: postgresql db
-      postgresql_db:
-        name="{{ database_name }}"
-        state=present
-        login_host="{{ database_host }}"
-        port={{ database_port }}
-        login_user="{{ database_root_user_postgres }}"
-        login_password="{{ database_root_password_postgres }}"
+    - name: verify PostgreSQL server is available
+      postgresql_ping:
+        login_host: '{{ database_host}}'
+        login_user: '{{ database_user }}'
+        login_password: '{{ database_password }}'
+        db: '{{ database_name }}'
+        port: '{{ database_port }}'
+      register: pgping
+      failed_when: not pgping.available
       notify: run install
-      when: (database_driver == 'pdo_pgsql') and
-            (populate_database == True)
-      tags:
-        - firstrun
-
-    - name: add postgresql user
-      postgresql_user:
-        name="{{ database_user }}"
-        password="{{ database_password }}"
-        encrypted=true
-        db={{ database_name }}
-        priv=ALL
-        login_host="{{ database_host }}"
-        port={{ database_port }}
-        login_user="{{ database_root_user_postgres }}"
-        login_password="{{ database_root_password_postgres }}"
-        state=present
-      when: (database_driver == 'pdo_pgsql') and
-            (database_user != 'postgres') and
-            (populate_database == True)
-      tags:
-        - firstrun
+      when: database_driver == 'pdo_pgsql'
 
     - name: remove cache
       file:
