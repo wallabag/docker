@@ -15,9 +15,9 @@ migrate () {
 
 if [ "$1" = "wallabag" ];then
     provisioner
-    exec s6-svscan /etc/s6/
     echo "Checking if DB migrations are needed..."
     migrate
+    exec s6-svscan /etc/s6/
 fi
 
 if [ "$1" = "import" ];then
