@@ -1,6 +1,6 @@
 # What is wallabag?
 
-[![Build Status](https://travis-ci.org/wallabag/docker.svg?branch=master)](https://travis-ci.org/wallabag/docker)
+![CI](https://github.com/wallabag/docker/workflows/CI/badge.svg)
 [![Docker Stars](https://img.shields.io/docker/stars/wallabag/wallabag.svg?maxAge=2592000)](https://hub.docker.com/r/wallabag/wallabag/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/wallabag/wallabag.svg?maxAge=2592000)](https://hub.docker.com/r/wallabag/wallabag/)
 
