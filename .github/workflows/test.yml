@@ -1,0 +1,54 @@
+name: "CI"
+
+on:
+  pull_request:
+    branches:
+      - "master"
+  push:
+    branches:
+      - "master"
+
+jobs:
+  test:
+    name: "Testing with database: ${{ matrix.database }}"
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        database:
+          - "default"
+          - "sqlite"
+          - "mariadb"
+          - "postgresql"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.5
+
+      - name: "Build image"
+        run: docker-compose -f tests/docker-compose.${{ matrix.database }}.yml build
+
+      - name: "Run image"
+        run: docker-compose -f tests/docker-compose.${{ matrix.database }}.yml up -d
+
+      - name: "Install dependencies"
+        run: |
+          pip install pytest
+          pip install requests
+
+      - name: "Check running instance"
+        run: docker ps
+
+      - name: "Wait 60s"
+        run: sleep 60
+
+      - name: "Run tests"
+        run: py.test tests/
