@@ -10,7 +10,6 @@ services:
       - POSTGRES_USER=my-super-user
       - SYMFONY__ENV__SECRET=F00B4R
       - SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql
-      - SYMFONY__ENV__DATABASE_DRIVER_CLASS=Wallabag\CoreBundle\Doctrine\DBAL\Driver\CustomPostgreSQLDriver
       - SYMFONY__ENV__DATABASE_HOST=db
       - SYMFONY__ENV__DATABASE_PORT=5432
       - SYMFONY__ENV__DATABASE_NAME=wallabag
