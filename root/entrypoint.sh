@@ -16,7 +16,7 @@ fi
 if [ "$1" = "import" ];then
     provisioner --skip-tags=firstrun
     cd /var/www/wallabag/
-    exec su -c "bin/console wallabag:import:redis-worker -e=prod $2 -vv" -s /bin/sh nobody
+    exec su -c "bin/console wallabag:import:redis-worker --env=prod $2 -vv" -s /bin/sh nobody
 fi
 
 if [ "$1" = "migrate" ];then
