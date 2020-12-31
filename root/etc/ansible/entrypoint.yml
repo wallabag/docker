@@ -36,6 +36,7 @@
     redis_path: "{{ lookup('env', 'SYMFONY__ENV__REDIS_PATH')|default('~', true) }}"
     redis_password: "{{ lookup('env', 'SYMFONY__ENV__REDIS_PASSWORD')|default('~', true) }}"
     sentry_dsn: "{{ lookup('env', 'SYMFONY__ENV__SENTRY_DSN')|default('~', true) }}"
+    server_name: "{{ lookup('env', 'SYMFONY__ENV__SERVER_NAME')|default('Your wallabag instance', true) }}"
 
   tasks:
 
