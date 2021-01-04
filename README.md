@@ -42,6 +42,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__REDIS_PASSWORD=...` (defaults to "~", this is the password defined in the Redis server configuration)
 - `-e SYMFONY__ENV__SENTRY_DSN=...` (defaults to "~", this is the data source name for sentry)
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
+- `-e SYMFONY__ENV__SERVER_NAME=...` (defaults to "Your wallabag instance". Specifies a user-friendly name for the 2FA issuer)
 
 ## SQLite
 
@@ -127,6 +128,7 @@ services:
       - SYMFONY__ENV__MAILER_PASSWORD=~
       - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
       - SYMFONY__ENV__DOMAIN_NAME=https://your-wallabag-url-instance.com
+      - SYMFONY__ENV__SERVER_NAME="Your wallabag instance"
     ports:
       - "80"
     volumes:
