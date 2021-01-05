@@ -58,3 +58,6 @@ parameters:
 
     # sentry logging
     sentry_dsn: ~
+
+    # User-friendly name of your instance for 2FA issuer
+    server_name: Your wallabag instance
