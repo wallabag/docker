@@ -26,7 +26,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__DATABASE_CHARSET=...` (defaults to utf8, this is the database charset to use)
 - `-e SYMFONY__ENV__SECRET=...` (defaults to "ovmpmAWXRCabNlMgzlzFXDYmCFfzGv")
 - `-e SYMFONY__ENV__LOCALE=...` (default to en)
-- `-e SYMFONY__ENV__MAILER_HOST=...`  (defaults to "127.0.0.1", the SMTP host)
+- `-e SYMFONY__ENV__MAILER_HOST=...` (defaults to "127.0.0.1", the SMTP host)
 - `-e SYMFONY__ENV__MAILER_USER=...` (defaults to "~", the SMTP user)
 - `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "`wallabag@example.com`", the address wallabag uses for outgoing emails)
@@ -34,7 +34,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__TWOFACTOR_SENDER=...` (defaults to "`no-reply@wallabag.org`", the address wallabag uses for two-factor emails)
 - `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "true", enable or disable public user registration)
 - `-e SYMFONY__ENV__FOSUSER_CONFIRMATION=...`(defaults to "true", enable or disable registration confirmation)
-- `-e SYMFONY__ENV__DOMAIN_NAME=...`  defaults to "`https://your-wallabag-url-instance.com`", the URL of your wallabag instance)
+- `-e SYMFONY__ENV__DOMAIN_NAME=...` defaults to "`https://your-wallabag-url-instance.com`", the URL of your wallabag instance)
 - `-e SYMFONY__ENV__REDIS_SCHEME=...` (defaults to "tcp", protocol to use to communicate with the target server (tcp, unix, or http))
 - `-e SYMFONY__ENV__REDIS_HOST=...` (defaults to "redis", IP or hostname of the target server)
 - `-e SYMFONY__ENV__REDIS_PORT=...` (defaults to "6379", port of the target host)
@@ -80,7 +80,7 @@ $ docker run --name wallabag --link wallabag-db:wallabag-db -e "POSTGRES_PASSWOR
 
 To use redis with a Docker link, a redis container with the name `redis` is needed and none of the `REDIS` environmental variables are needed:
 
- ```
+```
 $ docker run -p 6379:6379 --name redis redis:alpine
 $ docker run -p 80:80 -e "SYMFONY__ENV__DOMAIN_NAME=http://localhost" --link redis:redis wallabag/wallabag
 ```
@@ -133,14 +133,17 @@ services:
       - "80"
     volumes:
       - /opt/wallabag/images:/var/www/wallabag/web/assets/images
+    restart: unless-stopped
   db:
     image: mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
     volumes:
       - /opt/wallabag/data:/var/lib/mysql
+    restart: unless-stopped
   redis:
     image: redis:alpine
+    restart: unless-stopped
 ```
 
 Note that you must fill out the mail related variables according to your mail config.
@@ -171,7 +174,9 @@ server {
 ## Import worker
 
 To run the [async redis import worker](https://doc.wallabag.org/en/admin/asynchronous.html#install-redis-for-asynchronous-tasks) use the following command:
+
 ```
 $ docker run --name wallabag --link wallabag-db:wallabag-db --link redis:redis -e <... your config variables here ...>  wallabag/wallabag import <type>
 ```
+
 Where `<type>` is one of pocket, readability, instapaper, wallabag_v1, wallabag_v2, firefox or chrome.
