@@ -31,7 +31,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      # MYSQL_DATABASE: # /!\ Do not set this : https://github.com/wallabag/docker/issues/138#issuecomment-460075215
     volumes:
       - ${MYSQL_DATA}:/var/lib/mysql
 
