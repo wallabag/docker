@@ -107,40 +107,10 @@ $ docker exec -t NAME_OR_ID_OF_YOUR_WALLABAG_CONTAINER /var/www/wallabag/bin/con
 
 ## docker-compose
 
-It's a good way to use [docker-compose](https://docs.docker.com/compose/). Example:
-
+It's a good way to use [docker-compose](https://docs.docker.com/compose/). Just use use included `docker-compose` and `.env.example` files :
 ```
-version: '3'
-services:
-  wallabag:
-    image: wallabag/wallabag
-    environment:
-      - MYSQL_ROOT_PASSWORD=wallaroot
-      - SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql
-      - SYMFONY__ENV__DATABASE_HOST=db
-      - SYMFONY__ENV__DATABASE_PORT=3306
-      - SYMFONY__ENV__DATABASE_NAME=wallabag
-      - SYMFONY__ENV__DATABASE_USER=wallabag
-      - SYMFONY__ENV__DATABASE_PASSWORD=wallapass
-      - SYMFONY__ENV__DATABASE_CHARSET=utf8mb4
-      - SYMFONY__ENV__MAILER_HOST=127.0.0.1
-      - SYMFONY__ENV__MAILER_USER=~
-      - SYMFONY__ENV__MAILER_PASSWORD=~
-      - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
-      - SYMFONY__ENV__DOMAIN_NAME=https://your-wallabag-url-instance.com
-      - SYMFONY__ENV__SERVER_NAME="Your wallabag instance"
-    ports:
-      - "80"
-    volumes:
-      - /opt/wallabag/images:/var/www/wallabag/web/assets/images
-  db:
-    image: mariadb
-    environment:
-      - MYSQL_ROOT_PASSWORD=wallaroot
-    volumes:
-      - /opt/wallabag/data:/var/lib/mysql
-  redis:
-    image: redis:alpine
+cp .env.example .env
+docker-compose up -d
 ```
 
 Note that you must fill out the mail related variables according to your mail config.
