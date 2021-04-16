@@ -21,6 +21,7 @@ services:
       - "${SERVER_PORT}:80"
     volumes:
       - ${WALLABAG_DATA_IMAGES}:/var/www/wallabag/web/assets/images
+      - ${WALLABAG_DATA_CONFIG}:/var/www/wallabag/app/config:rw
 
   db:
     image: mariadb
