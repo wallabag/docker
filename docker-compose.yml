@@ -2,6 +2,7 @@ version: '3'
 services:
   wallabag:
     image: wallabag/wallabag
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SYMFONY__ENV__DATABASE_DRIVER: pdo_mysql
@@ -25,6 +26,7 @@ services:
 
   db:
     image: mariadb
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
@@ -35,3 +37,4 @@ services:
 
   redis:
     image: redis:alpine
+    restart: unless-stopped
