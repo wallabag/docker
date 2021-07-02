@@ -107,7 +107,7 @@ $ docker exec -t NAME_OR_ID_OF_YOUR_WALLABAG_CONTAINER /var/www/wallabag/bin/con
 
 ## docker-compose
 
-It's a good way to use [docker-compose](https://docs.docker.com/compose/). Example:
+An example [docker-compose](https://docs.docker.com/compose/) file can be seen below:
 
 ```
 version: '3'
@@ -133,14 +133,29 @@ services:
       - "80"
     volumes:
       - /opt/wallabag/images:/var/www/wallabag/web/assets/images
+    healthcheck:
+      test: ["CMD", "wget" ,"--no-verbose", "--tries=1", "--spider", "http://localhost"]
+      interval: 1m
+      timeout: 3s
+    depends_on:
+      - db
+      - redis
   db:
     image: mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
     volumes:
       - /opt/wallabag/data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 20s
+      timeout: 3s
   redis:
     image: redis:alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 20s
+      timeout: 3s
 ```
 
 Note that you must fill out the mail related variables according to your mail config.
