@@ -1,11 +1,14 @@
 #!/bin/sh
 
 provisioner () {
-    echo "Starting provisioner..."
-    if ! out=`ansible-playbook -i /etc/ansible/hosts /etc/ansible/entrypoint.yml -c local "$@"`;then
-        echo $out;
-    fi
-    echo "Provisioner finished."
+    echo "Setting up Wallabag..."
+
+    cd /var/www/wallabag
+    /usr/local/bin/envsubst < app/config/parameters.template > app/config/parameters.yml
+    SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist --no-progress --quiet
+    chown -R nobody:nobody /var/www/wallabag/var
+
+    echo "Ready"
 }
 
 if [ "$1" = "wallabag" ];then
@@ -14,14 +17,12 @@ if [ "$1" = "wallabag" ];then
 fi
 
 if [ "$1" = "import" ];then
-    provisioner --skip-tags=firstrun
-    cd /var/www/wallabag/
+    provisioner
     exec su -c "bin/console wallabag:import:redis-worker --env=prod $2 -vv" -s /bin/sh nobody
 fi
 
 if [ "$1" = "migrate" ];then
     provisioner
-    cd /var/www/wallabag/
     exec su -c "bin/console doctrine:migrations:migrate --env=prod --no-interaction" -s /bin/sh nobody
 fi
 
