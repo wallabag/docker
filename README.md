@@ -111,6 +111,9 @@ An example [docker-compose](https://docs.docker.com/compose/) file can be seen b
 
 ```
 version: '3'
+networks:
+  wallabag:
+    external: false
 services:
   wallabag:
     image: wallabag/wallabag
@@ -133,6 +136,9 @@ services:
       - "80"
     volumes:
       - /opt/wallabag/images:/var/www/wallabag/web/assets/images
+    restart: always
+    networks:
+      - wallabag
     healthcheck:
       test: ["CMD", "wget" ,"--no-verbose", "--tries=1", "--spider", "http://localhost"]
       interval: 1m
@@ -146,12 +152,18 @@ services:
       - MYSQL_ROOT_PASSWORD=wallaroot
     volumes:
       - /opt/wallabag/data:/var/lib/mysql
+    restart: always
+    networks:
+      - wallabag
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       interval: 20s
       timeout: 3s
   redis:
     image: redis:alpine
+    restart: always
+    networks:
+      - wallabag
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 20s
