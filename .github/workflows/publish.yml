@@ -27,6 +27,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          
+       # Documentation: https://github.com/docker/setup-qemu-action
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        
+      # Documentation: https://github.com/docker/setup-buildx-action
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -43,3 +52,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          # Support for different platforms, see here: 
+          # https://github.com/docker/buildx/blob/master/docs/reference/buildx_build.md#-set-the-target-platforms-for-the-build---platform
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
