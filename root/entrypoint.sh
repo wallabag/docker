@@ -3,7 +3,7 @@
 provisioner () {
     echo "Setting up Wallabag..."
 
-    cd /var/www/wallabag
+    cd /var/www/wallabag || exit
     /usr/local/bin/envsubst < app/config/parameters.template > app/config/parameters.yml
     SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist --no-progress --quiet
     chown -R nobody:nobody /var/www/wallabag/var
