@@ -44,6 +44,8 @@ Default login is `wallabag:wallabag`.
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
 - `-e SYMFONY__ENV__SERVER_NAME=...` (defaults to "Your wallabag instance". Specifies a user-friendly name for the 2FA issuer)
 
+To set any of these environment variables from a file (for instance a Docker Secret), append `__FILE` to the name of the environment variable.
+
 ## SQLite
 
 The easiest way to start wallabag is to use the SQLite backend. You can spin that up with
