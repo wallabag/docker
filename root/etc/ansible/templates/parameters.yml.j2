@@ -6,7 +6,7 @@ parameters:
     database_user: {{ database_user }}
     database_password: {{ database_password }}
     database_path: "%kernel.root_dir%/../data/db/wallabag.sqlite"
-    database_table_prefix: wallabag_
+    database_table_prefix: {{ database_table_prefix }}
     database_socket: null
     database_charset: {{ database_charset }}
 
