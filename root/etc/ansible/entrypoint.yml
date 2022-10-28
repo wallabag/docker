@@ -14,6 +14,7 @@
     database_root_password_postgres: "{{ lookup('env', 'POSTGRES_PASSWORD') }}"
     database_user: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_USER')|default('root', true) }}"
     database_charset: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_CHARSET')|default('utf8', true) }}"
+    database_table_prefix: "{{ lookup('env', 'SYMFONY__ENV__DATABASE_TABLE_PREFIX')|default('wallabag_', true) }}"
     populate_database: "{{ lookup('env', 'POPULATE_DATABASE')|default(True, true) }}"
     locale: "{{ lookup('env', 'SYMFONY__ENV__LOCALE')|default('en', true) }}"
     secret: "{{ lookup('env', 'SYMFONY__ENV__SECRET')|default('ovmpmAWXRCabNlMgzlzFXDYmCFfzGv', true) }}"
