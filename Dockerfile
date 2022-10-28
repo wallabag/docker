@@ -17,32 +17,32 @@ RUN set -ex \
       mariadb-client \
       nginx \
       pcre \
-      php7 \
-      php7-amqp \
-      php7-bcmath \
-      php7-ctype \
-      php7-curl \
-      php7-dom \
-      php7-fpm \
-      php7-gd \
-      php7-gettext \
-      php7-iconv \
-      php7-json \
-      php7-mbstring \
-      php7-openssl \
-      php7-pdo_mysql \
-      php7-pdo_pgsql \
-      php7-pdo_sqlite \
-      php7-phar \
-      php7-session \
-      php7-simplexml \
-      php7-tokenizer \
-      php7-xml \
-      php7-zlib \
-      php7-sockets \
-      php7-xmlreader \
-      php7-tidy \
-      php7-intl \
+      php8 \
+      php8-bcmath \
+      php8-ctype \
+      php8-curl \
+      php8-dom \
+      php8-fpm \
+      php8-gd \
+      php8-gettext \
+      php8-iconv \
+      php8-json \
+      php8-mbstring \
+      php8-openssl \
+      php8-pecl-amqp \
+      php8-pdo_mysql \
+      php8-pdo_pgsql \
+      php8-pdo_sqlite \
+      php8-phar \
+      php8-session \
+      php8-simplexml \
+      php8-tokenizer \
+      php8-xml \
+      php8-zlib \
+      php8-sockets \
+      php8-xmlreader \
+      php8-tidy \
+      php8-intl \
       py3-mysqlclient \
       py3-psycopg2 \
       py-simplejson \
@@ -52,6 +52,8 @@ RUN set -ex \
       tzdata \
       make \
       bash \
+ && ln -sf /usr/bin/php8 /usr/bin/php \
+ && ln -sf /usr/sbin/php-fpm8 /usr/sbin/php-fpm \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
