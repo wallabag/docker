@@ -50,8 +50,6 @@ RUN set -ex \
       s6 \
       tar \
       tzdata \
-      make \
-      bash \
  && ln -sf /usr/bin/php8 /usr/bin/php \
  && ln -sf /usr/sbin/php-fpm8 /usr/sbin/php-fpm \
  && rm -rf /var/cache/apk/* \
