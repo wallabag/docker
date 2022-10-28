@@ -13,7 +13,6 @@ RUN set -ex \
  && apk add \
       ansible \
       curl \
-      git \
       libwebp \
       mariadb-client \
       nginx \
@@ -58,14 +57,20 @@ RUN set -ex \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
  && curl -s https://getcomposer.org/installer | php \
  && mv composer.phar /usr/local/bin/composer \
- && composer selfupdate 2.2.12 \
- && git clone --branch $WALLABAG_VERSION --depth 1 https://github.com/wallabag/wallabag.git /var/www/wallabag
+ && composer selfupdate 2.2.12
 
 COPY root /
 
 RUN set -ex \
+ && mv /var/www/wallabag/app /tmp/app \
+ && curl -L -o /tmp/wallabag.tar.gz https://github.com/wallabag/wallabag/archive/$WALLABAG_VERSION.tar.gz \
+ && tar xvf /tmp/wallabag.tar.gz -C /tmp \
+ && mv /tmp/wallabag-*/* /var/www/wallabag/ \
+ && rm -rf /tmp/wallabag* \
+ && mv /tmp/app/config/parameters.yml /var/www/wallabag/app/config/parameters.yml \
  && cd /var/www/wallabag \
  && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist --no-progress \
+ && rm -rf /root/.composer/* /var/www/wallabag/var/cache/* /var/www/wallabag/var/logs/* /var/www/wallabag/var/sessions/* \
  && chown -R nobody:nobody /var/www/wallabag
 
 EXPOSE 80
