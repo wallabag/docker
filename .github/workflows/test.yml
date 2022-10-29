@@ -31,7 +31,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.5
+          python-version: 3.11
 
       - name: "Build image"
         run: docker-compose -f tests/docker-compose.${{ matrix.database }}.yml build
@@ -40,9 +40,7 @@ jobs:
         run: docker-compose -f tests/docker-compose.${{ matrix.database }}.yml up -d
 
       - name: "Install dependencies"
-        run: |
-          pip install pytest
-          pip install requests
+        run: pip install pytest requests
 
       - name: "Check running instance"
         run: docker ps
