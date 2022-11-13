@@ -1,17 +1,20 @@
+FROM golang:alpine3.16 as builder
+
+# envsubst from gettext can not replace env vars with default values
+# this package is not available for ARM32 and we have to build it from source code
+# flag -ldflags "-s -w" produces a smaller executable
+RUN go install -ldflags "-s -w" -v github.com/a8m/envsubst/cmd/envsubst@v1.3.0
+
 FROM alpine:3.16
 
-LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
+COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
 ARG WALLABAG_VERSION=2.5.2
 
 RUN set -ex \
- && apk update \
- && apk upgrade --available \
- && apk add \
-      ansible \
+ && apk add --no-cache \
       curl \
       libwebp \
-      mariadb-client \
       nginx \
       pcre \
       php8 \
@@ -40,9 +43,8 @@ RUN set -ex \
       php8-xmlreader \
       php8-tidy \
       php8-intl \
-      py3-mysqlclient \
-      py3-psycopg2 \
-      py-simplejson \
+      mariadb-client \
+      postgresql14-client \
       rabbitmq-c \
       s6 \
       tar \
@@ -54,18 +56,20 @@ RUN set -ex \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
  && curl -s https://getcomposer.org/installer | php \
  && mv composer.phar /usr/local/bin/composer \
- && composer selfupdate 2.2.18
+ && composer selfupdate 2.2.18 \
+ && rm -rf /root/.composer/*
 
 COPY root /
 
 RUN set -ex \
- && mv /var/www/wallabag/app /tmp/app \
  && curl -L -o /tmp/wallabag.tar.gz https://github.com/wallabag/wallabag/archive/$WALLABAG_VERSION.tar.gz \
  && tar xvf /tmp/wallabag.tar.gz -C /tmp \
+ && mkdir /var/www/wallabag \
  && mv /tmp/wallabag-*/* /var/www/wallabag/ \
  && rm -rf /tmp/wallabag* \
- && mv /tmp/app/config/parameters.yml /var/www/wallabag/app/config/parameters.yml \
  && cd /var/www/wallabag \
+ && mkdir data/assets \
+ && envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml \
  && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist --no-progress \
  && rm -rf /root/.composer/* /var/www/wallabag/var/cache/* /var/www/wallabag/var/logs/* /var/www/wallabag/var/sessions/* \
  && chown -R nobody:nobody /var/www/wallabag
