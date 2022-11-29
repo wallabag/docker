@@ -1,11 +1,11 @@
-FROM golang:alpine3.16 as builder
+FROM golang:alpine as builder
 
 # envsubst from gettext can not replace env vars with default values
 # this package is not available for ARM32 and we have to build it from source code
 # flag -ldflags "-s -w" produces a smaller executable
 RUN go install -ldflags "-s -w" -v github.com/a8m/envsubst/cmd/envsubst@v1.3.0
 
-FROM alpine:3.16
+FROM alpine:3.17
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
@@ -17,40 +17,40 @@ RUN set -ex \
       libwebp \
       nginx \
       pcre \
-      php8 \
-      php8-bcmath \
-      php8-ctype \
-      php8-curl \
-      php8-dom \
-      php8-fpm \
-      php8-gd \
-      php8-gettext \
-      php8-iconv \
-      php8-json \
-      php8-mbstring \
-      php8-openssl \
-      php8-pecl-amqp \
-      php8-pdo_mysql \
-      php8-pdo_pgsql \
-      php8-pdo_sqlite \
-      php8-phar \
-      php8-session \
-      php8-simplexml \
-      php8-tokenizer \
-      php8-xml \
-      php8-zlib \
-      php8-sockets \
-      php8-xmlreader \
-      php8-tidy \
-      php8-intl \
+      php81 \
+      php81-bcmath \
+      php81-ctype \
+      php81-curl \
+      php81-dom \
+      php81-fpm \
+      php81-gd \
+      php81-gettext \
+      php81-iconv \
+      php81-json \
+      php81-mbstring \
+      php81-openssl \
+      php81-pecl-amqp \
+      php81-pdo_mysql \
+      php81-pdo_pgsql \
+      php81-pdo_sqlite \
+      php81-phar \
+      php81-session \
+      php81-simplexml \
+      php81-tokenizer \
+      php81-xml \
+      php81-zlib \
+      php81-sockets \
+      php81-xmlreader \
+      php81-tidy \
+      php81-intl \
       mariadb-client \
       postgresql14-client \
       rabbitmq-c \
       s6 \
       tar \
       tzdata \
- && ln -sf /usr/bin/php8 /usr/bin/php \
- && ln -sf /usr/sbin/php-fpm8 /usr/sbin/php-fpm \
+ && ln -sf /usr/bin/php81 /usr/bin/php \
+ && ln -sf /usr/sbin/php-fpm81 /usr/sbin/php-fpm \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
