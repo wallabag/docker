@@ -56,7 +56,7 @@ $ docker run -p 80:80 -e "SYMFONY__ENV__DOMAIN_NAME=http://localhost" wallabag/w
 and point your browser to `http://localhost`. For persistent storage you should start the container with a volume:
 
 ```
-$ docker run -v /opt/wallabag/data:/var/www/wallabag/data -v /opt/wallabag/images:/var/www/wallabag/web/assets/images -p 80:80 -e "SYMFONY__ENV__DOMAIN_NAME=http://localhost" wallabag/wallabag
+$ docker run -v /opt/wallabag/data:/var/www/html/data -v /opt/wallabag/assets:/var/www/html/web/assets -p 80:80 -e "SYMFONY__ENV__DOMAIN_NAME=http://localhost" wallabag/wallabag
 ```
 
 ## MariaDB / MySQL
