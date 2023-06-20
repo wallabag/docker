@@ -43,6 +43,7 @@ RUN set -ex \
       php81-xmlreader \
       php81-tidy \
       php81-intl \
+      php81-sodium \
       mariadb-client \
       postgresql14-client \
       rabbitmq-c \
