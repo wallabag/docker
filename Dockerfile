@@ -57,7 +57,6 @@ RUN set -ex \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
  && curl -s https://getcomposer.org/installer | php \
  && mv composer.phar /usr/local/bin/composer \
- && composer selfupdate 2.2.18 \
  && rm -rf /root/.composer/*
 
 COPY root /
