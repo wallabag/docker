@@ -10,7 +10,7 @@ parameters:
     database_socket: null
     database_charset: ${SYMFONY__ENV__DATABASE_CHARSET:-utf8}
 
-    domain_name: ${SYMFONY__ENV__DOMAIN_NAME:-https://your-wallabag-url-instance.com}
+    domain_name: ${SYMFONY__ENV__DOMAIN_NAME:-https://your-wallabag-instance.wallabag.org}
 
     mailer_transport: ${SYMFONY__ENV__MAILER_TRANSPORT:-smtp}
     mailer_user: ${SYMFONY__ENV__MAILER_USER:-~}
