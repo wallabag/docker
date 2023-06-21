@@ -33,7 +33,8 @@ provisioner() {
     fi
 
     # Configure SQLite database
-    if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_sqlite" ] && [ ! -f "/var/www/wallabag/data/db/wallabag.sqlite" ] ; then
+    SQLITE_FILE_SIZE=$(wc -c "/var/www/wallabag/data/db/wallabag.sqlite" | awk '{print $1}')
+    if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_sqlite" ] && ([ ! -f "/var/www/wallabag/data/db/wallabag.sqlite" ] || [ "$SQLITE_FILE_SIZE" = 0 ]) ; then
         echo "Configuring the SQLite database ..."
         install_wallabag
     fi
@@ -87,9 +88,9 @@ provisioner() {
 }
 
 if [ "$COMMAND_ARG1" = "wallabag" ]; then
-    echo "Starting Wallabag ..."
+    echo "Starting wallabag ..."
     provisioner
-    echo "Wallabag is ready!"
+    echo "wallabag is ready!"
     exec s6-svscan /etc/s6/
 fi
 

@@ -9,7 +9,7 @@ FROM alpine:3.17
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
-ARG WALLABAG_VERSION=2.5.4
+ARG WALLABAG_VERSION=2.6.1
 
 RUN set -ex \
  && apk add --no-cache \
@@ -43,6 +43,7 @@ RUN set -ex \
       php81-xmlreader \
       php81-tidy \
       php81-intl \
+      php81-sodium \
       mariadb-client \
       postgresql14-client \
       rabbitmq-c \
@@ -56,7 +57,6 @@ RUN set -ex \
  && ln -sf /dev/stderr /var/log/nginx/error.log \
  && curl -s https://getcomposer.org/installer | php \
  && mv composer.phar /usr/local/bin/composer \
- && composer selfupdate 2.2.18 \
  && rm -rf /root/.composer/*
 
 COPY root /
