@@ -27,9 +27,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__DATABASE_TABLE_PREFIX=...` (defaults to "wallabag_". Specifies the prefix for each database table)
 - `-e SYMFONY__ENV__SECRET=...` (defaults to "ovmpmAWXRCabNlMgzlzFXDYmCFfzGv")
 - `-e SYMFONY__ENV__LOCALE=...` (default to en)
-- `-e SYMFONY__ENV__MAILER_HOST=...`  (defaults to "127.0.0.1", the SMTP host)
-- `-e SYMFONY__ENV__MAILER_USER=...` (defaults to "~", the SMTP user)
-- `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
+- `-e SYMFONY__ENV__MAILER_DSN=...`  (defaults to "smtp://127.0.0.1")
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "`wallabag@example.com`", the address wallabag uses for outgoing emails)
 - `-e SYMFONY__ENV__TWOFACTOR_AUTH=...` (defaults to "true", enable or disable two-factor authentication)
 - `-e SYMFONY__ENV__TWOFACTOR_SENDER=...` (defaults to "`no-reply@wallabag.org`", the address wallabag uses for two-factor emails)
@@ -125,9 +123,7 @@ services:
       - SYMFONY__ENV__DATABASE_PASSWORD=wallapass
       - SYMFONY__ENV__DATABASE_CHARSET=utf8mb4
       - SYMFONY__ENV__DATABASE_TABLE_PREFIX="wallabag_"
-      - SYMFONY__ENV__MAILER_HOST=127.0.0.1
-      - SYMFONY__ENV__MAILER_USER=~
-      - SYMFONY__ENV__MAILER_PASSWORD=~
+      - SYMFONY__ENV__MAILER_DSN=smtp://127.0.0.1
       - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
       - SYMFONY__ENV__DOMAIN_NAME=https://your-wallabag-instance.wallabag.org
       - SYMFONY__ENV__SERVER_NAME="Your wallabag instance"

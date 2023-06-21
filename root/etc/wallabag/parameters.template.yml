@@ -12,13 +12,7 @@ parameters:
 
     domain_name: ${SYMFONY__ENV__DOMAIN_NAME:-https://your-wallabag-instance.wallabag.org}
 
-    mailer_transport: ${SYMFONY__ENV__MAILER_TRANSPORT:-smtp}
-    mailer_user: ${SYMFONY__ENV__MAILER_USER:-~}
-    mailer_password: ${SYMFONY__ENV__MAILER_PASSWORD:-~}
-    mailer_host: ${SYMFONY__ENV__MAILER_HOST:-127.0.0.1}
-    mailer_port: ${SYMFONY__ENV__MAILER_PORT:-25}
-    mailer_encryption: ${SYMFONY__ENV__MAILER_ENCRYPTION:-~}
-    mailer_auth_mode: ${SYMFONY__ENV__MAILER_AUTH_MODE:-~}
+    mailer_dsn: ${SYMFONY__ENV__MAILER_DSN:-smtp://127.0.0.1}
 
     locale: ${SYMFONY__ENV__LOCALE:-en}
 
