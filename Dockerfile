@@ -74,6 +74,9 @@ RUN set -ex \
  && rm -rf /root/.composer/* /var/www/wallabag/var/cache/* /var/www/wallabag/var/logs/* /var/www/wallabag/var/sessions/* \
  && chown -R nobody:nobody /var/www/wallabag
 
+# Set console entry path
+WORKDIR /var/www/wallabag
+
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["wallabag"]
