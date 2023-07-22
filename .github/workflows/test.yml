@@ -43,7 +43,9 @@ jobs:
         run: py.test --database=${{ matrix.database }} tests/
 
       - name: "Get docker logs"
+        if: ${{ always() }}
         run: docker-compose -p "wallabag_${{ matrix.database }}" -f tests/docker-compose.${{ matrix.database }}.yml logs wallabag
 
       - name: "Cleanup environment"
+        if: ${{ always() }}
         run: docker-compose -p "wallabag_${{ matrix.database }}" -f tests/docker-compose.${{ matrix.database }}.yml down -v
