@@ -76,6 +76,9 @@ RUN set -ex \
 
 ENV PATH="${PATH}:/var/www/wallabag/bin"
 
+# Set console entry path
+WORKDIR /var/www/wallabag
+
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["wallabag"]
