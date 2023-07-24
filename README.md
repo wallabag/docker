@@ -29,7 +29,6 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__LOCALE=...` (default to en)
 - `-e SYMFONY__ENV__MAILER_DSN=...`  (defaults to "smtp://127.0.0.1")
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "`wallabag@example.com`", the address wallabag uses for outgoing emails)
-- `-e SYMFONY__ENV__TWOFACTOR_AUTH=...` (defaults to "true", enable or disable two-factor authentication)
 - `-e SYMFONY__ENV__TWOFACTOR_SENDER=...` (defaults to "`no-reply@wallabag.org`", the address wallabag uses for two-factor emails)
 - `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "true", enable or disable public user registration)
 - `-e SYMFONY__ENV__FOSUSER_CONFIRMATION=...`(defaults to "true", enable or disable registration confirmation)
