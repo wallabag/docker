@@ -36,17 +36,16 @@ jobs:
       - name: "Build image"
         run: docker-compose -f tests/docker-compose.${{ matrix.database }}.yml build
 
-      - name: "Run image"
-        run: docker-compose -f tests/docker-compose.${{ matrix.database }}.yml up -d
-
       - name: "Install dependencies"
-        run: pip install pytest requests
-
-      - name: "Check running instance"
-        run: docker ps
-
-      - name: "Wait 60s"
-        run: sleep 60
+        run: pip install pytest pytest-docker requests
 
       - name: "Run tests"
-        run: py.test tests/
+        run: py.test --database=${{ matrix.database }} tests/
+
+      - name: "Get docker logs"
+        if: ${{ always() }}
+        run: docker-compose -p "wallabag_${{ matrix.database }}" -f tests/docker-compose.${{ matrix.database }}.yml logs wallabag
+
+      - name: "Cleanup environment"
+        if: ${{ always() }}
+        run: docker-compose -p "wallabag_${{ matrix.database }}" -f tests/docker-compose.${{ matrix.database }}.yml down -v

@@ -20,7 +20,6 @@ parameters:
     secret: ${SYMFONY__ENV__SECRET:-ovmpmAWXRCabNlMgzlzFXDYmCFfzGv}
 
     # two factor stuff
-    twofactor_auth: ${SYMFONY__ENV__TWOFACTOR_AUTH:-true}
     twofactor_sender: ${SYMFONY__ENV__TWOFACTOR_SENDER:-no-reply@wallabag.org}
 
     # fosuser stuff
