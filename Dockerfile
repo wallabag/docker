@@ -5,11 +5,11 @@ FROM golang:alpine as builder
 # flag -ldflags "-s -w" produces a smaller executable
 RUN go install -ldflags "-s -w" -v github.com/a8m/envsubst/cmd/envsubst@v1.3.0
 
-FROM alpine:3.17
+FROM alpine:3.18
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
-ARG WALLABAG_VERSION=2.6.1
+ARG WALLABAG_VERSION=master
 
 RUN set -ex \
  && apk add --no-cache \
