@@ -1,3 +1,7 @@
+ARG COMPOSER_VERSION=2.5.8
+
+FROM composer:$COMPOSER_VERSION as composer
+
 FROM golang:alpine as builder
 
 # envsubst from gettext can not replace env vars with default values
@@ -54,10 +58,9 @@ RUN set -ex \
  && ln -sf /usr/sbin/php-fpm81 /usr/sbin/php-fpm \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
- && ln -sf /dev/stderr /var/log/nginx/error.log \
- && curl -s https://getcomposer.org/installer | php \
- && mv composer.phar /usr/local/bin/composer \
- && rm -rf /root/.composer/*
+ && ln -sf /dev/stderr /var/log/nginx/error.log
+
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 COPY root /
 
