@@ -24,8 +24,15 @@ provisioner() {
     SYMFONY__ENV__DATABASE_DRIVER=${SYMFONY__ENV__DATABASE_DRIVER:-pdo_sqlite}
     POPULATE_DATABASE=${POPULATE_DATABASE:-True}
 
+    # PHP configuration base and memory limit (default is 128M because that's what php.ini currently ships with)
+    PHP_CONF_BASE_DIR=`php --ini | head -n1 | sed 's/^.*: //'`
+    PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-128M}
+
     # Replace environment variables
     envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml
+
+    # Configure PHP memory limit
+    sed -i "s/memory_limit\s*=.*/memory_limit=${PHP_MEMORY_LIMIT}/g" $PHP_CONF_BASE_DIR/php.ini
 
     # Wait for external database
     if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_mysql" ] || [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_pgsql" ] ; then
