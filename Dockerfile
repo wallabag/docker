@@ -13,7 +13,7 @@ FROM alpine:3.18
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
-ARG WALLABAG_VERSION=2.6.4
+ARG WALLABAG_VERSION=2.6.5
 
 RUN set -ex \
  && apk add --no-cache \
