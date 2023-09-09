@@ -54,6 +54,7 @@ RUN set -ex \
       s6 \
       tar \
       tzdata \
+      php81-pecl-imagick --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community \
  && ln -sf /usr/bin/php81 /usr/bin/php \
  && ln -sf /usr/sbin/php-fpm81 /usr/sbin/php-fpm \
  && rm -rf /var/cache/apk/* \
