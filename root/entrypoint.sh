@@ -82,6 +82,7 @@ provisioner() {
             -c "SELECT 1 FROM pg_catalog.pg_tables WHERE schemaname = 'public';")"
         if [ "$TABLES_EXIST" == "" ]; then
             echo "Installing Wallabag ..."
+            exec su -c "bin/console doctrine:migrations:migrate --env=prod --no-interaction" -s /bin/sh nobody
             install_wallabag
         else
             echo "WARN: Postgres database is already configured. Remove the environment variable with root password."
