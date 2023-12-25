@@ -64,18 +64,18 @@ provisioner() {
     # Configure Postgres database
     if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_pgsql" ] && [ "$POPULATE_DATABASE" = "True" ] && [ "$POSTGRES_PASSWORD" != "" ] ; then
         export PGPASSWORD="${POSTGRES_PASSWORD}"
+        USER_EXISTS="$(psql -qAt -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
+            -c "SELECT 1 FROM pg_roles WHERE rolname = '${SYMFONY__ENV__DATABASE_USER}';")"
+        if [ "$USER_EXISTS" != "1" ]; then
+            psql -q -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
+                 -c "CREATE ROLE ${SYMFONY__ENV__DATABASE_USER} with PASSWORD '${SYMFONY__ENV__DATABASE_PASSWORD}' LOGIN;"
+        fi
         DATABASE_EXISTS="$(psql -qAt -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
             -c "SELECT 1 FROM pg_catalog.pg_database WHERE datname = '${SYMFONY__ENV__DATABASE_NAME}';")"
         if [ "$DATABASE_EXISTS" != "1" ]; then
             echo "Configuring the Postgres database ..."
             psql -q -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
                 -c "CREATE DATABASE ${SYMFONY__ENV__DATABASE_NAME};"
-            USER_EXISTS="$(psql -qAt -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
-                -c "SELECT 1 FROM pg_roles WHERE rolname = '${SYMFONY__ENV__DATABASE_USER}';")"
-            if [ "$USER_EXISTS" != "1" ]; then
-                psql -q -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
-                    -c "CREATE ROLE ${SYMFONY__ENV__DATABASE_USER} with PASSWORD '${SYMFONY__ENV__DATABASE_PASSWORD}' LOGIN;"
-            fi
             install_wallabag
         else
             echo "WARN: Postgres database is already configured. Remove the environment variable with root password."
