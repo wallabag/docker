@@ -76,6 +76,12 @@ provisioner() {
             echo "Configuring the Postgres database ..."
             psql -q -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
                 -c "CREATE DATABASE ${SYMFONY__ENV__DATABASE_NAME};"
+        fi
+
+        TABLES_EXIST="$(psql -qAt -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
+            -c "SELECT 1 FROM pg_catalog.pg_tables WHERE schemaname = 'public';")"
+        if [ "$TABLES_EXIST" == "" ]; then
+            echo "Installing Wallabag ..."
             install_wallabag
         else
             echo "WARN: Postgres database is already configured. Remove the environment variable with root password."
