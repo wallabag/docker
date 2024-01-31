@@ -112,6 +112,7 @@ version: '3'
 services:
   wallabag:
     image: wallabag/wallabag
+    restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
       - SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql
@@ -139,6 +140,7 @@ services:
       - redis
   db:
     image: mariadb
+    restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
     volumes:
@@ -149,6 +151,7 @@ services:
       timeout: 3s
   redis:
     image: redis:alpine
+    restart: unless-stopped    
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 20s
