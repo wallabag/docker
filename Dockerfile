@@ -76,9 +76,11 @@ RUN set -ex \
  && envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml \
  && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist --no-progress \
  && rm -rf /root/.composer/* /var/www/wallabag/var/cache/* /var/www/wallabag/var/logs/* /var/www/wallabag/var/sessions/* \
- && chown -R nobody:nobody /var/www/wallabag
+ && chown -R nobody:nobody /var/www/wallabag \
+ && sed -i -e 's/memory_limit = 128M/memory_limit = ${PHP_MEMORY_LIMIT}/' /etc/php81/php.ini
 
 ENV PATH="${PATH}:/var/www/wallabag/bin"
+ENV PHP_MEMORY_LIMIT=128M
 
 # Set console entry path
 WORKDIR /var/www/wallabag
