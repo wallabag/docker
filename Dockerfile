@@ -34,6 +34,7 @@ RUN set -ex \
       php81-mbstring \
       php81-openssl \
       php81-pecl-amqp \
+      php81-pecl-imagick \
       php81-pdo_mysql \
       php81-pdo_pgsql \
       php81-pdo_sqlite \
@@ -65,7 +66,7 @@ COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 COPY root /
 
 RUN set -ex \
- && curl -L -o /tmp/wallabag.tar.gz https://github.com/wallabag/wallabag/archive/$WALLABAG_VERSION.tar.gz \
+ && curl -L -o /tmp/wallabag.tar.gz https://github.com/wallabag/wallabag/releases/download/$WALLABAG_VERSION/wallabag-$WALLABAG_VERSION.tar.gz \
  && tar xvf /tmp/wallabag.tar.gz -C /tmp \
  && mkdir /var/www/wallabag \
  && mv /tmp/wallabag-*/* /var/www/wallabag/ \

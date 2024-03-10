@@ -23,6 +23,8 @@ install_wallabag() {
 provisioner() {
     SYMFONY__ENV__DATABASE_DRIVER=${SYMFONY__ENV__DATABASE_DRIVER:-pdo_sqlite}
     POPULATE_DATABASE=${POPULATE_DATABASE:-True}
+    SQLITE_DB_DIR="/var/www/wallabag/data/db"
+    SQLITE_DB_FILEPATH="$SQLITE_DB_DIR/wallabag.sqlite"
 
     # Replace environment variables
     envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml
@@ -33,10 +35,17 @@ provisioner() {
     fi
 
     # Configure SQLite database
-    SQLITE_FILE_SIZE=$(wc -c "/var/www/wallabag/data/db/wallabag.sqlite" | awk '{print $1}')
-    if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_sqlite" ] && ([ ! -f "/var/www/wallabag/data/db/wallabag.sqlite" ] || [ "$SQLITE_FILE_SIZE" = 0 ]) ; then
-        echo "Configuring the SQLite database ..."
-        install_wallabag
+    if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_sqlite" ]; then
+        # mkdir and chown are mandatory for local folder binding
+        if [ ! -f "$SQLITE_DB_FILEPATH" ]; then
+            mkdir -p "$SQLITE_DB_DIR"
+            chown nobody: "$SQLITE_DB_DIR"
+        fi
+
+        if [ ! -s "$SQLITE_DB_FILEPATH" ]; then
+            echo "Configuring the SQLite database ..."
+            install_wallabag
+        fi
     fi
 
     # Configure MySQL / MariaDB database

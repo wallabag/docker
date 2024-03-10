@@ -23,7 +23,7 @@ parameters:
     twofactor_sender: ${SYMFONY__ENV__TWOFACTOR_SENDER:-no-reply@wallabag.org}
 
     # fosuser stuff
-    fosuser_registration: ${SYMFONY__ENV__FOSUSER_REGISTRATION:-true}
+    fosuser_registration: ${SYMFONY__ENV__FOSUSER_REGISTRATION:-false}
     fosuser_confirmation: ${SYMFONY__ENV__FOSUSER_CONFIRMATION:-true}
 
     # how long the access token should live in seconds for the API

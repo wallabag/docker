@@ -30,7 +30,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__MAILER_DSN=...`  (defaults to "smtp://127.0.0.1")
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "`wallabag@example.com`", the address wallabag uses for outgoing emails)
 - `-e SYMFONY__ENV__TWOFACTOR_SENDER=...` (defaults to "`no-reply@wallabag.org`", the address wallabag uses for two-factor emails)
-- `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "true", enable or disable public user registration)
+- `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "false", enable or disable public user registration)
 - `-e SYMFONY__ENV__FOSUSER_CONFIRMATION=...`(defaults to "true", enable or disable registration confirmation)
 - `-e SYMFONY__ENV__DOMAIN_NAME=...`  defaults to "`https://your-wallabag-instance.wallabag.org`", the URL of your wallabag instance)
 - `-e SYMFONY__ENV__REDIS_SCHEME=...` (defaults to "tcp", protocol to use to communicate with the target server (tcp, unix, or http))
@@ -112,6 +112,7 @@ version: '3'
 services:
   wallabag:
     image: wallabag/wallabag
+    restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
       - SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql
@@ -131,7 +132,7 @@ services:
     volumes:
       - /opt/wallabag/images:/var/www/wallabag/web/assets/images
     healthcheck:
-      test: ["CMD", "wget" ,"--no-verbose", "--tries=1", "--spider", "http://localhost"]
+      test: ["CMD", "wget" ,"--no-verbose", "--tries=1", "--spider", "http://localhost/api/info"]
       interval: 1m
       timeout: 3s
     depends_on:
@@ -139,6 +140,7 @@ services:
       - redis
   db:
     image: mariadb
+    restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
     volumes:
@@ -149,6 +151,7 @@ services:
       timeout: 3s
   redis:
     image: redis:alpine
+    restart: unless-stopped    
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 20s
