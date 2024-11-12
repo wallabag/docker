@@ -12,3 +12,10 @@ updates:
     versions:
     - ">= 3.11.a"
     - "< 3.12"
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "04:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
