@@ -28,7 +28,7 @@ def docker_cleanup():
 
 @pytest.fixture(scope="session")
 def docker_compose_command() -> str:
-    return "docker-compose"
+    return "docker compose"
 
 @pytest.fixture(scope="session")
 def docker_compose_file(pytestconfig, database):

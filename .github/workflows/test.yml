@@ -24,17 +24,17 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: 3.11
 
       - name: "Build image"
-        run: docker-compose -f tests/docker-compose.${{ matrix.database }}.yml build
+        run: docker compose -f tests/docker-compose.${{ matrix.database }}.yml build
 
       - name: "Install dependencies"
         run: pip install pytest pytest-docker requests
@@ -44,8 +44,8 @@ jobs:
 
       - name: "Get docker logs"
         if: ${{ always() }}
-        run: docker-compose -p "wallabag_${{ matrix.database }}" -f tests/docker-compose.${{ matrix.database }}.yml logs wallabag
+        run: docker compose -p "wallabag_${{ matrix.database }}" -f tests/docker-compose.${{ matrix.database }}.yml logs wallabag
 
       - name: "Cleanup environment"
         if: ${{ always() }}
-        run: docker-compose -p "wallabag_${{ matrix.database }}" -f tests/docker-compose.${{ matrix.database }}.yml down -v
+        run: docker compose -p "wallabag_${{ matrix.database }}" -f tests/docker-compose.${{ matrix.database }}.yml down -v
