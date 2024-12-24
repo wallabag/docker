@@ -132,10 +132,6 @@ services:
       - "80"
     volumes:
       - /opt/wallabag/images:/var/www/wallabag/web/assets/images
-    healthcheck:
-      test: ["CMD", "wget" ,"--no-verbose", "--tries=1", "--spider", "http://localhost/api/info"]
-      interval: 1m
-      timeout: 3s
     depends_on:
       - db
       - redis
