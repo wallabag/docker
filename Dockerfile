@@ -32,6 +32,7 @@ RUN set -ex \
       php81-iconv \
       php81-json \
       php81-mbstring \
+      php81-opcache \
       php81-openssl \
       php81-pecl-amqp \
       php81-pecl-imagick \
