@@ -1,72 +1,90 @@
-FROM alpine:3.12
+ARG COMPOSER_VERSION=2.5.8
 
-LABEL maintainer "Marvin Steadfast <marvin@xsteadfastx.org>"
+FROM composer:$COMPOSER_VERSION as composer
 
-ARG WALLABAG_VERSION=2.4.1
+FROM golang:alpine as builder
 
-RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+# envsubst from gettext can not replace env vars with default values
+# this package is not available for ARM32 and we have to build it from source code
+# flag -ldflags "-s -w" produces a smaller executable
+RUN go install -ldflags "-s -w" -v github.com/a8m/envsubst/cmd/envsubst@v1.3.0
+
+FROM alpine:3.18
+
+COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
+
+ARG WALLABAG_VERSION=2.6.12
 
 RUN set -ex \
- && apk update \
- && apk upgrade --available \
- && apk add \
-      ansible \
+ && apk add --no-cache \
       curl \
-      git \
       libwebp \
-      mariadb-client \
       nginx \
       pcre \
-      php7 \
-      php7-amqp \
-      php7-bcmath \
-      php7-ctype \
-      php7-curl \
-      php7-dom \
-      php7-fpm \
-      php7-gd \
-      php7-gettext \
-      php7-iconv \
-      php7-json \
-      php7-mbstring \
-      php7-openssl \
-      php7-pdo_mysql \
-      php7-pdo_pgsql \
-      php7-pdo_sqlite \
-      php7-phar \
-      php7-session \
-      php7-simplexml \
-      php7-tokenizer \
-      php7-xml \
-      php7-zlib \
-      php7-sockets \
-      php7-xmlreader \
-      php7-tidy \
-      php7-intl \
-      py3-mysqlclient \
-      py3-psycopg2 \
-      py-simplejson \
+      php81 \
+      php81-bcmath \
+      php81-ctype \
+      php81-curl \
+      php81-dom \
+      php81-fpm \
+      php81-gd \
+      php81-gettext \
+      php81-iconv \
+      php81-json \
+      php81-mbstring \
+      php81-opcache \
+      php81-openssl \
+      php81-pecl-amqp \
+      php81-pecl-imagick \
+      php81-pdo_mysql \
+      php81-pdo_pgsql \
+      php81-pdo_sqlite \
+      php81-phar \
+      php81-session \
+      php81-simplexml \
+      php81-tokenizer \
+      php81-xml \
+      php81-zlib \
+      php81-sockets \
+      php81-xmlreader \
+      php81-tidy \
+      php81-intl \
+      php81-sodium \
+      mariadb-client \
+      postgresql14-client \
       rabbitmq-c \
       s6 \
       tar \
       tzdata \
-      make \
-      bash \
+ && ln -sf /usr/bin/php81 /usr/bin/php \
+ && ln -sf /usr/sbin/php-fpm81 /usr/sbin/php-fpm \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
- && ln -sf /dev/stderr /var/log/nginx/error.log \
- && curl -s https://getcomposer.org/installer | php \
- && mv composer.phar /usr/local/bin/composer \
- && composer selfupdate --1 \
- && git clone --branch $WALLABAG_VERSION --depth 1 https://github.com/wallabag/wallabag.git /var/www/wallabag
+ && ln -sf /dev/stderr /var/log/nginx/error.log
+
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 COPY root /
 
 RUN set -ex \
+ && curl -L -o /tmp/wallabag.tar.gz https://github.com/wallabag/wallabag/releases/download/$WALLABAG_VERSION/wallabag-$WALLABAG_VERSION.tar.gz \
+ && tar xvf /tmp/wallabag.tar.gz -C /tmp \
+ && mkdir /var/www/wallabag \
+ && mv /tmp/wallabag-*/* /var/www/wallabag/ \
+ && rm -rf /tmp/wallabag* \
  && cd /var/www/wallabag \
+ && mkdir data/assets \
+ && envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml \
  && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist --no-progress \
+ && rm -rf /root/.composer/* /var/www/wallabag/var/cache/* /var/www/wallabag/var/logs/* /var/www/wallabag/var/sessions/* \
  && chown -R nobody:nobody /var/www/wallabag
+
+ENV PATH="${PATH}:/var/www/wallabag/bin"
+
+# Set console entry path
+WORKDIR /var/www/wallabag
+
+HEALTHCHECK CMD curl --fail --silent --show-error --user-agent healthcheck http://localhost/api/info || exit 1
 
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]

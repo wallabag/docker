@@ -24,17 +24,15 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__DATABASE_USER=...` (defaults to "root", this is the name of the database user to use)
 - `-e SYMFONY__ENV__DATABASE_PASSWORD=...` (defaults to "~", this is the password of the database user to use)
 - `-e SYMFONY__ENV__DATABASE_CHARSET=...` (defaults to utf8, this is the database charset to use)
+- `-e SYMFONY__ENV__DATABASE_TABLE_PREFIX=...` (defaults to "wallabag_". Specifies the prefix for each database table)
 - `-e SYMFONY__ENV__SECRET=...` (defaults to "ovmpmAWXRCabNlMgzlzFXDYmCFfzGv")
 - `-e SYMFONY__ENV__LOCALE=...` (default to en)
-- `-e SYMFONY__ENV__MAILER_HOST=...`  (defaults to "127.0.0.1", the SMTP host)
-- `-e SYMFONY__ENV__MAILER_USER=...` (defaults to "~", the SMTP user)
-- `-e SYMFONY__ENV__MAILER_PASSWORD=...`(defaults to "~", the SMTP password)
+- `-e SYMFONY__ENV__MAILER_DSN=...`  (defaults to "smtp://127.0.0.1")
 - `-e SYMFONY__ENV__FROM_EMAIL=...`(defaults to "`wallabag@example.com`", the address wallabag uses for outgoing emails)
-- `-e SYMFONY__ENV__TWOFACTOR_AUTH=...` (defaults to "true", enable or disable two-factor authentication)
 - `-e SYMFONY__ENV__TWOFACTOR_SENDER=...` (defaults to "`no-reply@wallabag.org`", the address wallabag uses for two-factor emails)
-- `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "true", enable or disable public user registration)
+- `-e SYMFONY__ENV__FOSUSER_REGISTRATION=...`(defaults to "false", enable or disable public user registration)
 - `-e SYMFONY__ENV__FOSUSER_CONFIRMATION=...`(defaults to "true", enable or disable registration confirmation)
-- `-e SYMFONY__ENV__DOMAIN_NAME=...`  defaults to "`https://your-wallabag-url-instance.com`", the URL of your wallabag instance)
+- `-e SYMFONY__ENV__DOMAIN_NAME=...`  defaults to "`https://your-wallabag-instance.wallabag.org`", the URL of your wallabag instance)
 - `-e SYMFONY__ENV__REDIS_SCHEME=...` (defaults to "tcp", protocol to use to communicate with the target server (tcp, unix, or http))
 - `-e SYMFONY__ENV__REDIS_HOST=...` (defaults to "redis", IP or hostname of the target server)
 - `-e SYMFONY__ENV__REDIS_PORT=...` (defaults to "6379", port of the target host)
@@ -43,6 +41,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__SENTRY_DSN=...` (defaults to "~", this is the data source name for sentry)
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
 - `-e SYMFONY__ENV__SERVER_NAME=...` (defaults to "Your wallabag instance". Specifies a user-friendly name for the 2FA issuer)
+- `-e PHP_MEMORY_LIMIT=...` (allows you to change the PHP `memory_limit` value. defaults to 128M, and should be a number and unit, eg. 512K, 128M, 2G, or a number of bytes)
 
 To set any of these environment variables from a file (for instance a Docker Secret), append `__FILE` to the name of the environment variable.
 
@@ -109,13 +108,13 @@ $ docker exec -t NAME_OR_ID_OF_YOUR_WALLABAG_CONTAINER /var/www/wallabag/bin/con
 
 ## docker-compose
 
-It's a good way to use [docker-compose](https://docs.docker.com/compose/). Example:
+An example [docker-compose](https://docs.docker.com/compose/) file can be seen below:
 
 ```
-version: '3'
 services:
   wallabag:
     image: wallabag/wallabag
+    restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
       - SYMFONY__ENV__DATABASE_DRIVER=pdo_mysql
@@ -125,24 +124,36 @@ services:
       - SYMFONY__ENV__DATABASE_USER=wallabag
       - SYMFONY__ENV__DATABASE_PASSWORD=wallapass
       - SYMFONY__ENV__DATABASE_CHARSET=utf8mb4
-      - SYMFONY__ENV__MAILER_HOST=127.0.0.1
-      - SYMFONY__ENV__MAILER_USER=~
-      - SYMFONY__ENV__MAILER_PASSWORD=~
+      - SYMFONY__ENV__DATABASE_TABLE_PREFIX="wallabag_"
+      - SYMFONY__ENV__MAILER_DSN=smtp://127.0.0.1
       - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
-      - SYMFONY__ENV__DOMAIN_NAME=https://your-wallabag-url-instance.com
+      - SYMFONY__ENV__DOMAIN_NAME=https://your-wallabag-instance.wallabag.org
       - SYMFONY__ENV__SERVER_NAME="Your wallabag instance"
     ports:
       - "80"
     volumes:
       - /opt/wallabag/images:/var/www/wallabag/web/assets/images
+    depends_on:
+      - db
+      - redis
   db:
     image: mariadb
+    restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=wallaroot
     volumes:
       - /opt/wallabag/data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 20s
+      timeout: 3s
   redis:
     image: redis:alpine
+    restart: unless-stopped    
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 20s
+      timeout: 3s
 ```
 
 Note that you must fill out the mail related variables according to your mail config.

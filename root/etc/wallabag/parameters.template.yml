@@ -1,0 +1,56 @@
+parameters:
+    database_driver: ${SYMFONY__ENV__DATABASE_DRIVER:-pdo_sqlite}
+    database_host: ${SYMFONY__ENV__DATABASE_HOST:-127.0.0.1}
+    database_port: ${SYMFONY__ENV__DATABASE_PORT:-~}
+    database_name: ${SYMFONY__ENV__DATABASE_NAME:-symfony}
+    database_user: ${SYMFONY__ENV__DATABASE_USER:-root}
+    database_password: ${SYMFONY__ENV__DATABASE_PASSWORD:-~}
+    database_path: "%kernel.project_dir%/data/db/wallabag.sqlite"
+    database_table_prefix: ${SYMFONY__ENV__DATABASE_TABLE_PREFIX:-wallabag_}
+    database_socket: null
+    database_charset: ${SYMFONY__ENV__DATABASE_CHARSET:-utf8}
+
+    domain_name: ${SYMFONY__ENV__DOMAIN_NAME:-https://your-wallabag-instance.wallabag.org}
+
+    mailer_dsn: ${SYMFONY__ENV__MAILER_DSN:-smtp://127.0.0.1}
+
+    locale: ${SYMFONY__ENV__LOCALE:-en}
+
+    # A secret key that's used to generate certain security-related tokens
+    secret: ${SYMFONY__ENV__SECRET:-ovmpmAWXRCabNlMgzlzFXDYmCFfzGv}
+
+    # two factor stuff
+    twofactor_sender: ${SYMFONY__ENV__TWOFACTOR_SENDER:-no-reply@wallabag.org}
+
+    # fosuser stuff
+    fosuser_registration: ${SYMFONY__ENV__FOSUSER_REGISTRATION:-false}
+    fosuser_confirmation: ${SYMFONY__ENV__FOSUSER_CONFIRMATION:-true}
+
+    # how long the access token should live in seconds for the API
+    fos_oauth_server_access_token_lifetime: 3600
+    # how long the refresh token should life in seconds for the API
+    fos_oauth_server_refresh_token_lifetime: 1209600
+
+    from_email: ${SYMFONY__ENV__FROM_EMAIL:-no-reply@wallabag.org}
+
+    rss_limit: 50
+
+    # RabbitMQ processing
+    rabbitmq_host: localhost
+    rabbitmq_port: 5672
+    rabbitmq_user: guest
+    rabbitmq_password: guest
+    rabbitmq_prefetch_count: 10
+
+    # Redis processing
+    redis_scheme: ${SYMFONY__ENV__REDIS_SCHEME:-tcp}
+    redis_host: ${SYMFONY__ENV__REDIS_HOST:-redis}
+    redis_port: ${SYMFONY__ENV__REDIS_PORT:-6379}
+    redis_path: ${SYMFONY__ENV__REDIS_PATH:-~}
+    redis_password: ${SYMFONY__ENV__REDIS_PASSWORD:-~}
+
+    # Sentry
+    sentry_dsn: ${SYMFONY__ENV__SENTRY_DSN:-~}
+
+    # User-friendly name of your instance for 2FA issuer
+    server_name: ${SYMFONY__ENV__SERVER_NAME:-"Your wallabag instance"}
