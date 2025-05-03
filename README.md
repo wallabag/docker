@@ -142,9 +142,11 @@ services:
     volumes:
       - /opt/wallabag/data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      interval: 20s
-      timeout: 3s
+      test: ['CMD', '/usr/local/bin/healthcheck.sh', '--innodb_initialized']
+      start_period: 5s
+      timeout: 5s
+      interval: 5s
+      retries: 5
   redis:
     image: redis:alpine
     restart: unless-stopped    
