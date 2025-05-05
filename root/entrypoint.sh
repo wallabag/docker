@@ -29,6 +29,7 @@ provisioner() {
     # Replace environment variables
     envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml
     envsubst < /etc/wallabag/php-wallabag.template.ini > /etc/php81/conf.d/50_wallabag.ini
+    envsubst < /etc/wallabag/nginx.template.conf > /etc/nginx/nginx.conf 
 
     # Wait for external database
     if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_mysql" ] || [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_pgsql" ] ; then
