@@ -1,4 +1,4 @@
-ARG COMPOSER_VERSION=2.5.8
+ARG COMPOSER_VERSION=2.8.10
 
 FROM composer:$COMPOSER_VERSION as composer
 
@@ -7,9 +7,9 @@ FROM golang:alpine as builder
 # envsubst from gettext can not replace env vars with default values
 # this package is not available for ARM32 and we have to build it from source code
 # flag -ldflags "-s -w" produces a smaller executable
-RUN go install -ldflags "-s -w" -v github.com/a8m/envsubst/cmd/envsubst@v1.3.0
+RUN go install -ldflags "-s -w" -v github.com/a8m/envsubst/cmd/envsubst@v1.4.3
 
-FROM alpine:3.18
+FROM alpine:3.19
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
