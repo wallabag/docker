@@ -20,6 +20,19 @@ install_wallabag() {
     su -c "php bin/console wallabag:install --env=prod -n" -s /bin/sh nobody
 }
 
+check_ipv6() {
+    # Check if IPv6 is enabled
+    if sysctl net.ipv6.conf.all.disable_ipv6 2>/dev/null | grep -q ' = 0' && \
+       [ -s /proc/net/if_inet6 ]; then
+          echo "IPv6 is ENABLED"
+          IPV6_LISTEN="listen [::]:80 ipv6only=off;"
+    else
+       echo "IPv6 is DISABLED"
+       IPV6_LISTEN=""
+    fi
+    envsubst '${IPV6_LISTEN}' < /etc/nginx/nginx.template.conf > /etc/nginx/nginx.conf
+}
+
 provisioner() {
     SYMFONY__ENV__DATABASE_DRIVER=${SYMFONY__ENV__DATABASE_DRIVER:-pdo_sqlite}
     POPULATE_DATABASE=${POPULATE_DATABASE:-True}
@@ -96,6 +109,8 @@ provisioner() {
     rm -f -r /var/www/wallabag/var/cache
     su -c "SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist" -s /bin/sh nobody
 }
+
+check_ipv6
 
 if [ "$COMMAND_ARG1" = "wallabag" ]; then
     echo "Starting wallabag ..."
