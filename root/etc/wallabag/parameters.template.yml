@@ -36,11 +36,11 @@ parameters:
     rss_limit: 50
 
     # RabbitMQ processing
-    rabbitmq_host: localhost
-    rabbitmq_port: 5672
-    rabbitmq_user: guest
-    rabbitmq_password: guest
-    rabbitmq_prefetch_count: 10
+    rabbitmq_host: ${SYMFONY__ENV__RABBITMQ_HOST:-localhost}
+    rabbitmq_port: ${SYMFONY__ENV__RABBITMQ_PORT:-5672}
+    rabbitmq_user: ${SYMFONY__ENV__RABBITMQ_USER:-guest}
+    rabbitmq_password: ${SYMFONY__ENV__RABBITMQ_PASSWORD:-guest}
+    rabbitmq_prefetch_count: ${SYMFONY__ENV__RABBITMQ_PREFETCH_COUNT:-10}
 
     # Redis processing
     redis_scheme: ${SYMFONY__ENV__REDIS_SCHEME:-tcp}
