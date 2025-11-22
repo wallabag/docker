@@ -73,9 +73,16 @@ provisioner() {
 
     # Configure Postgres database
     if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_pgsql" ] && [ "$POPULATE_DATABASE" = "True" ] && [ "$POSTGRES_PASSWORD" != "" ] ; then
+		if [ -z "$POSTGRES_DATABASE_NAME" ]; then
+			echo "WARN: POSTGRES_DATABASE_NAME is not set. POSTGRES_USER will be used as database name"
+		else
+			export PGDATABASE="${POSTGRES_DATABASE_NAME}"
+		fi
         export PGPASSWORD="${POSTGRES_PASSWORD}"
         DATABASE_EXISTS="$(psql -qAt -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
             -c "SELECT 1 FROM pg_catalog.pg_database WHERE datname = '${SYMFONY__ENV__DATABASE_NAME}';")"
+		TABLE_EXISTS="$(psql -qAt -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
+			-c "SELECT 1 FROM information_schema.tables WHERE table_name = 'wallabag_user';")"
         if [ "$DATABASE_EXISTS" != "1" ]; then
             echo "Configuring the Postgres database ..."
             psql -q -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
@@ -87,6 +94,9 @@ provisioner() {
                     -c "CREATE ROLE ${SYMFONY__ENV__DATABASE_USER} with PASSWORD '${SYMFONY__ENV__DATABASE_PASSWORD}' LOGIN;"
             fi
             install_wallabag
+		elif [ "$TABLE_EXISTS" != "1" ]; then
+			echo "Wallabag user and database is set already but tables not initialized, running install_wallabag ..."
+			install_wallabag
         else
             echo "WARN: Postgres database is already configured. Remove the environment variable with root password."
         fi
