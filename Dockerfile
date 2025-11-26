@@ -1,15 +1,15 @@
-ARG COMPOSER_VERSION=2.8.10
+ARG COMPOSER_VERSION=2.2
 
-FROM composer:$COMPOSER_VERSION as composer
+FROM composer:$COMPOSER_VERSION AS composer
 
-FROM golang:alpine as builder
+FROM golang:alpine AS builder
 
 # envsubst from gettext can not replace env vars with default values
 # this package is not available for ARM32 and we have to build it from source code
 # flag -ldflags "-s -w" produces a smaller executable
 RUN go install -ldflags "-s -w" -v github.com/a8m/envsubst/cmd/envsubst@v1.4.3
 
-FROM alpine:3.19
+FROM alpine:3.22
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
@@ -21,43 +21,43 @@ RUN set -ex \
       libwebp \
       nginx \
       pcre \
-      php81 \
-      php81-bcmath \
-      php81-ctype \
-      php81-curl \
-      php81-dom \
-      php81-fpm \
-      php81-gd \
-      php81-gettext \
-      php81-iconv \
-      php81-json \
-      php81-mbstring \
-      php81-opcache \
-      php81-openssl \
-      php81-pecl-amqp \
-      php81-pecl-imagick \
-      php81-pdo_mysql \
-      php81-pdo_pgsql \
-      php81-pdo_sqlite \
-      php81-phar \
-      php81-session \
-      php81-simplexml \
-      php81-tokenizer \
-      php81-xml \
-      php81-zlib \
-      php81-sockets \
-      php81-xmlreader \
-      php81-tidy \
-      php81-intl \
-      php81-sodium \
+      php84 \
+      php84-bcmath \
+      php84-ctype \
+      php84-curl \
+      php84-dom \
+      php84-fpm \
+      php84-gd \
+      php84-gettext \
+      php84-iconv \
+      php84-json \
+      php84-mbstring \
+      php84-opcache \
+      php84-openssl \
+      php84-pecl-amqp \
+      php84-pecl-imagick \
+      php84-pdo_mysql \
+      php84-pdo_pgsql \
+      php84-pdo_sqlite \
+      php84-phar \
+      php84-session \
+      php84-simplexml \
+      php84-tokenizer \
+      php84-xml \
+      php84-zlib \
+      php84-sockets \
+      php84-xmlreader \
+      php84-tidy \
+      php84-intl \
+      php84-sodium \
       mariadb-client \
-      postgresql14-client \
+      postgresql17-client \
       rabbitmq-c \
       s6 \
       tar \
       tzdata \
- && ln -sf /usr/bin/php81 /usr/bin/php \
- && ln -sf /usr/sbin/php-fpm81 /usr/sbin/php-fpm \
+ && ln -sf /usr/bin/php84 /usr/bin/php \
+ && ln -sf /usr/sbin/php-fpm84 /usr/sbin/php-fpm \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log
