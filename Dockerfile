@@ -20,6 +20,7 @@ RUN set -ex \
       curl \
       libwebp \
       nginx \
+      netcat-openbsd \
       pcre \
       php84 \
       php84-bcmath \
