@@ -9,7 +9,7 @@ FROM golang:alpine AS builder
 # flag -ldflags "-s -w" produces a smaller executable
 RUN go install -ldflags "-s -w" -v github.com/a8m/envsubst/cmd/envsubst@v1.4.3
 
-FROM alpine:3.22
+FROM alpine:3.24
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
