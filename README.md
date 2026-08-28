@@ -17,6 +17,7 @@ Default login is `wallabag:wallabag`.
 - `-e MYSQL_ROOT_PASSWORD=...` (needed for the mariadb container to initialise and for the entrypoint in the wallabag container to create a database and user if its not there)
 - `-e POSTGRES_PASSWORD=...` (needed for the postgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
 - `-e POSTGRES_USER=...` (needed for the posgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
+- `-e POSTGRES_DATABASE_NAME=...` (optional: psql always connects to the database that matches the user name. this allows using a different name from user)
 - `-e SYMFONY__ENV__DATABASE_DRIVER=...` (defaults to "pdo_sqlite", this sets the database driver to use)
 - `-e SYMFONY__ENV__DATABASE_HOST=...` (defaults to "127.0.0.1", if use mysql this should be the name of the mariadb container)
 - `-e SYMFONY__ENV__DATABASE_PORT=...` (port of the database host)
