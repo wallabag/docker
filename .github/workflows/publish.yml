@@ -3,6 +3,7 @@ name: Publish Docker image
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   push_to_registries:
@@ -37,6 +38,17 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v4
 
+      - name: Read Wallabag version for manual rebuild
+        if: github.event_name == 'workflow_dispatch'
+        id: wallabag
+        run: |
+          version=$(awk -F= '$1 == "ARG WALLABAG_VERSION" {print $2}' Dockerfile)
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Missing or invalid WALLABAG_VERSION in Dockerfile" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v6
@@ -44,11 +56,17 @@ jobs:
           images: |
             wallabag/wallabag
             ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=tag,enable=${{ github.event_name == 'release' }}
+            type=raw,value=${{ steps.wallabag.outputs.version }},enable=${{ github.event_name == 'workflow_dispatch' }}
+            type=raw,value=latest,enable=${{ github.event_name == 'workflow_dispatch' }}
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v7
         with:
           context: .
+          pull: true
+          no-cache: true
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
