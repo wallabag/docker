@@ -58,6 +58,7 @@ RUN set -ex \
       tzdata \
  && ln -sf /usr/bin/php84 /usr/bin/php \
  && ln -sf /usr/sbin/php-fpm84 /usr/sbin/php-fpm \
+ && php -r 'if (PHP_VERSION_ID < 80427) { fwrite(STDERR, "PHP 8.4.27 or newer is required for the October 2026 security fixes.\n"); exit(1); }' \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log

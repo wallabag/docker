@@ -2,6 +2,7 @@ import pytest
 import re
 import requests
 import os
+import subprocess
 
 from requests.exceptions import ConnectionError
 
@@ -84,3 +85,12 @@ def test_logging_in(wallabag_service):
     assert '/starred/list' in r.text
     assert '/archive/list' in r.text
     assert '/all/list' in r.text
+
+
+def test_php_security_baseline(wallabag_service, database):
+    subprocess.run([
+        "docker", "compose", "-p", "wallabag_{}".format(database),
+        "-f", "tests/docker-compose.{}.yml".format(database),
+        "exec", "-T", "wallabag", "php", "-r",
+        'exit(PHP_VERSION_ID >= 80427 && !filter_var(ini_get("session.upload_progress.enabled"), FILTER_VALIDATE_BOOLEAN) ? 0 : 1);',
+    ], check=True)
