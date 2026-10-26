@@ -10,17 +10,25 @@ on:
 
 jobs:
   test:
-    name: "Testing with database: ${{ matrix.database }}"
+    name: "Testing with database: ${{ matrix.postgres_version && format('postgresql {0}', matrix.postgres_version) || matrix.database }}"
     runs-on: "ubuntu-latest"
 
     strategy:
       fail-fast: false
       matrix:
-        database:
-          - "default"
-          - "sqlite"
-          - "mariadb"
-          - "postgresql"
+        include:
+          - database: "default"
+          - database: "sqlite"
+          - database: "mariadb"
+          - database: "postgresql"
+            postgres_version: "14"
+          - database: "postgresql"
+            postgres_version: "15"
+          - database: "postgresql"
+            postgres_version: "18"
+
+    env:
+      POSTGRES_VERSION: ${{ matrix.postgres_version }}
 
     steps:
       - name: "Checkout"
