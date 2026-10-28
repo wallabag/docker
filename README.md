@@ -43,7 +43,9 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__SERVER_NAME=...` (defaults to "Your wallabag instance". Specifies a user-friendly name for the 2FA issuer)
 - `-e PHP_MEMORY_LIMIT=...` (allows you to change the PHP `memory_limit` value. defaults to 128M, and should be a number and unit, eg. 512K, 128M, 2G, or a number of bytes)
 
-To set any of these environment variables from a file (for instance a Docker Secret), append `__FILE` to the name of the environment variable.
+To set any of these environment variables from a file (for instance a Docker Secret), append `__FILE` to its name and set it to the file path, e.g. `SYMFONY__ENV__DATABASE_PASSWORD__FILE=/run/secrets/db_password`.
+
+The file value takes precedence if both variables are set. Trailing newlines are removed. If the file cannot be read, the container stops instead of starting with a missing secret.
 
 ## SQLite
 
