@@ -29,7 +29,6 @@ provisioner() {
     # Replace environment variables
     envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml
     envsubst < /etc/wallabag/php-wallabag.template.ini > /etc/php82/conf.d/50_wallabag.ini
-    envsubst '${FASTCGI_READ_TIMEOUT}' < /etc/wallabag/nginx.template.conf | sed 's/\$\${/\${/g' > /etc/nginx/nginx.conf 
 
     # Wait for external database
     if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_mysql" ] || [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_pgsql" ] ; then
@@ -100,6 +99,15 @@ provisioner() {
 
 if [ "$COMMAND_ARG1" = "wallabag" ]; then
     echo "Starting wallabag ..."
+    # Only allow duration characters; nginx -t validates the actual syntax.
+    case "${FASTCGI_READ_TIMEOUT:-300s}" in
+        *[!0-9yMwdhms]*)
+            echo "ERROR: FASTCGI_READ_TIMEOUT must be a Nginx duration (e.g. 300s or 15m)." >&2
+            exit 1
+            ;;
+    esac
+    envsubst < /etc/wallabag/fastcgi-read-timeout.template.conf > /etc/wallabag/fastcgi-read-timeout.conf
+    nginx -t
     provisioner
     echo "wallabag is ready!"
     exec s6-svscan /etc/s6/

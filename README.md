@@ -42,7 +42,9 @@ Default login is `wallabag:wallabag`.
 - `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
 - `-e SYMFONY__ENV__SERVER_NAME=...` (defaults to "Your wallabag instance". Specifies a user-friendly name for the 2FA issuer)
 - `-e PHP_MEMORY_LIMIT=...` (allows you to change the PHP `memory_limit` value. defaults to 128M, and should be a number and unit, eg. 512K, 128M, 2G, or a number of bytes)
-- `-e FASTCGI_READ_TIMEOUT=...` (allows you to change the timeout how nginx handle cgi backend connection to PHP. default is 300s for 5 minutes)
+- `-e FASTCGI_READ_TIMEOUT=...` (sets the Nginx timeout between successive reads from PHP-FPM. Defaults to `300s`; for example, use `900s` or `15m` for 15 minutes. This does not change PHP execution limits or reverse-proxy timeouts.)
+
+`FASTCGI_READ_TIMEOUT` applies to the bundled Nginx configuration. Custom configurations can opt in by including `/etc/wallabag/fastcgi-read-timeout.conf`.
 
 ## SQLite
 
