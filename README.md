@@ -39,7 +39,7 @@ Default login is `wallabag:wallabag`.
 - `-e SYMFONY__ENV__REDIS_PATH=...`(defaults to "~", path of the unix socket file)
 - `-e SYMFONY__ENV__REDIS_PASSWORD=...` (defaults to "~", this is the password defined in the Redis server configuration)
 - `-e SYMFONY__ENV__SENTRY_DSN=...` (defaults to "~", this is the data source name for sentry)
-- `-e POPULATE_DATABASE=...`(defaults to "True". Does the DB has to be populated or is it an existing one)
+- `-e POPULATE_DATABASE=...` (defaults to `True`, case-sensitive. Enables automatic MySQL/PostgreSQL provisioning when administrative credentials are supplied. Set to `False` for a database you provision yourself. Does not affect SQLite. See [Database initialization](#database-initialization).)
 - `-e SYMFONY__ENV__SERVER_NAME=...` (defaults to "Your wallabag instance". Specifies a user-friendly name for the 2FA issuer)
 - `-e PHP_MEMORY_LIMIT=...` (allows you to change the PHP `memory_limit` value. defaults to 128M, and should be a number and unit, eg. 512K, 128M, 2G, or a number of bytes)
 
@@ -74,6 +74,31 @@ For using PostgreSQL you have to define some environment variables with the cont
 $ docker run --name wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "POSTGRES_USER=my-super-user" -d postgres:9.6
 $ docker run --name wallabag --link wallabag-db:wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "POSTGRES_USER=my-super-user" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=5432" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -e "SYMFONY__ENV__DOMAIN_NAME=http://localhost" -p 80:80 wallabag/wallabag
 ```
+
+## Database initialization
+
+The entrypoint runs `wallabag:install` automatically in these cases:
+
+- **SQLite:** the database file is missing or empty.
+- **MySQL / MariaDB / PostgreSQL:** `POPULATE_DATABASE=True`, the required administrative credentials are supplied and the entrypoint creates the application database.
+
+For MySQL and PostgreSQL, an existing database is not initialized automatically, **even if it is empty**. Setting `POPULATE_DATABASE=False` or omitting the administrative credentials also skips automatic installation.
+
+To use an existing empty database, grant the application user the permissions needed to create its tables, configure the `SYMFONY__ENV__DATABASE_*` variables, and set `POPULATE_DATABASE=False`. Start the container and wait for `wallabag is ready!`, then initialize the database **once**:
+
+```sh
+docker compose exec --user nobody wallabag php bin/console wallabag:install --env=prod -n
+```
+
+For a container started without Compose, use:
+
+```sh
+docker exec --user nobody NAME_OR_ID_OF_YOUR_WALLABAG_CONTAINER php /var/www/wallabag/bin/console wallabag:install --env=prod -n
+```
+
+Run the installer as `nobody` to avoid creating files owned by root. **These commands are for first-time installation on an empty database, not for an existing Wallabag installation or routine restarts.** For upgrades, follow [Upgrading](#upgrading).
+
+If startup fails while waiting for the database, fix database connectivity first; running the installer does not resolve a connection timeout.
 
 ## Redis
 
