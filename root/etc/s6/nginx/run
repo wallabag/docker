@@ -1,8 +1,7 @@
 #!/bin/sh
 
 echo "Ready to start Nginx, waiting for php-fpm on 127.0.0.1:9000..."
-# Wait for php-fpm to be ready
-until nc -z 127.0.0.1 9000; do
+until nc -z 127.0.0.1 9000 < /dev/null > /dev/null 2>&1; do
     echo "Wait for php-fpm..."
     sleep 1
 done
