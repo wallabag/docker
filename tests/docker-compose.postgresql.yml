@@ -17,7 +17,7 @@ services:
     ports:
       - "127.0.0.1:80:80"
   db:
-    image: postgres:10.3
+    image: postgres:${POSTGRES_VERSION:-10.3}
     environment:
       - POSTGRES_PASSWORD=my-secret-pw
       - POSTGRES_USER=my-super-user
