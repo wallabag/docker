@@ -17,6 +17,7 @@ Default login is `wallabag:wallabag`.
 - `-e MYSQL_ROOT_PASSWORD=...` (needed for the mariadb container to initialise and for the entrypoint in the wallabag container to create a database and user if its not there)
 - `-e POSTGRES_PASSWORD=...` (needed for the postgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
 - `-e POSTGRES_USER=...` (needed for the posgres container to initialise and for the entrypoint in the wallabag container to create a database and user if not there)
+- `-e POSTGRES_DB=...` (optional: existing database used by `psql` to provision PostgreSQL. Defaults to `POSTGRES_USER`; an explicit `PGDATABASE` takes precedence. This is separate from Wallabag's `SYMFONY__ENV__DATABASE_NAME`.)
 - `-e SYMFONY__ENV__DATABASE_DRIVER=...` (defaults to "pdo_sqlite", this sets the database driver to use)
 - `-e SYMFONY__ENV__DATABASE_HOST=...` (defaults to "127.0.0.1", if use mysql this should be the name of the mariadb container)
 - `-e SYMFONY__ENV__DATABASE_PORT=...` (port of the database host)
@@ -74,6 +75,8 @@ For using PostgreSQL you have to define some environment variables with the cont
 $ docker run --name wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "POSTGRES_USER=my-super-user" -d postgres:9.6
 $ docker run --name wallabag --link wallabag-db:wallabag-db -e "POSTGRES_PASSWORD=my-secret-pw" -e "POSTGRES_USER=my-super-user" -e "SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql" -e "SYMFONY__ENV__DATABASE_HOST=wallabag-db" -e "SYMFONY__ENV__DATABASE_PORT=5432" -e "SYMFONY__ENV__DATABASE_NAME=wallabag" -e "SYMFONY__ENV__DATABASE_USER=wallabag" -e "SYMFONY__ENV__DATABASE_PASSWORD=wallapass" -e "SYMFONY__ENV__DOMAIN_NAME=http://localhost" -p 80:80 wallabag/wallabag
 ```
+
+If the PostgreSQL container uses a `POSTGRES_DB` different from `POSTGRES_USER`, pass the same `POSTGRES_DB` to the Wallabag container. It must name an existing administrative database, not a Wallabag database that still needs to be created.
 
 ## Redis
 
