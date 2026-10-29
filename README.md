@@ -12,6 +12,14 @@ With this application you will not miss content anymore. Click, save, read it wh
 
 Default login is `wallabag:wallabag`.
 
+## Image tags
+
+Images are published to [Docker Hub](https://hub.docker.com/r/wallabag/wallabag/) and [GitHub Container Registry](https://ghcr.io/wallabag/docker).
+Each stable release updates the full version, minor version, major version and `latest` tags.
+
+For example, `2.6.15` publishes `2.6.15`, `2.6`, `2` and `latest`.
+
+
 ## Environment variables
 
 - `-e MYSQL_ROOT_PASSWORD=...` (needed for the mariadb container to initialise and for the entrypoint in the wallabag container to create a database and user if its not there)
