@@ -26,9 +26,11 @@ jobs:
             postgres_version: "15"
           - database: "postgresql"
             postgres_version: "18"
+            postgres_db: "wallabag_admin"
 
     env:
       POSTGRES_VERSION: ${{ matrix.postgres_version }}
+      POSTGRES_DB: ${{ matrix.postgres_db }}
 
     steps:
       - name: "Checkout"
