@@ -88,7 +88,7 @@ provisioner() {
                 -c "CREATE DATABASE ${SYMFONY__ENV__DATABASE_NAME} OWNER ${SYMFONY__ENV__DATABASE_USER};"
         fi
         TABLES_EXISTS="$(psql -qAt -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
-            -d ${SYMFONY__ENV__DATABASE_NAME} -c "SELECT 1 FROM pg_catalog.pg_tables WHERE schemaname = 'public' AND tablename like '${DB_PREFIX}%';")"
+            -d ${SYMFONY__ENV__DATABASE_NAME} -c "SELECT 1 FROM pg_catalog.pg_tables WHERE schemaname = 'public' AND tablename like '${SYMFONY__ENV__DATABASE_TABLE_PREFIX}%';")"
         if [ "$TABLES_EXISTS" == "" ]; then
             echo "Installing Wallabag ..."
             install_wallabag
