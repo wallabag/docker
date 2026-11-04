@@ -2,6 +2,9 @@ import pytest
 import re
 import requests
 import os
+import json
+from pathlib import Path
+import subprocess
 
 from requests.exceptions import ConnectionError
 
@@ -84,3 +87,27 @@ def test_logging_in(wallabag_service):
     assert '/starred/list' in r.text
     assert '/archive/list' in r.text
     assert '/all/list' in r.text
+
+
+def test_secret_parameters(wallabag_service, database, docker_compose_file, docker_compose_project_name):
+    if not database.endswith("-secret"):
+        pytest.skip("This configuration does not use secret files")
+
+    result = subprocess.run(
+        ["docker", "compose", "-p", docker_compose_project_name, "-f", docker_compose_file,
+         "exec", "-T", "wallabag", "php", "-r", '''
+require "vendor/autoload.php";
+require "app/AppKernel.php";
+$kernel = new AppKernel("prod", false);
+$kernel->boot();
+$container = $kernel->getContainer();
+echo json_encode([$container->getParameter("database_password"), $container->getParameter("secret")]);
+'''],
+        capture_output=True,
+        text=True,
+        check=True,
+        timeout=30,
+    )
+    credentials = Path(__file__).parent / "credentials"
+    expected = [(credentials / name).read_text().rstrip("\n") for name in ("db_password", "env_secret")]
+    assert json.loads(result.stdout) == expected
