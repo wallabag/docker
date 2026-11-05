@@ -16,6 +16,8 @@ import pytest
 ])
 def test_postgresql_admin_database(pytestconfig, tmp_path, variables, expected):
     database = pytestconfig.getoption("database")
+    if database != "postgresql":
+        pytest.skip("PostgreSQL-only test")
     compose = Path(__file__).parent / f"docker-compose.{database}.yml"
     config = subprocess.check_output(
         ["docker", "compose", "-f", str(compose), "config", "--format", "json"], text=True,
