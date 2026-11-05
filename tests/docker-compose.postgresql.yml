@@ -7,6 +7,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=my-secret-pw
       - POSTGRES_USER=my-super-user
+      - POSTGRES_DB=${POSTGRES_DB:-my-super-user}
       - SYMFONY__ENV__SECRET=F00B4R
       - SYMFONY__ENV__DATABASE_DRIVER=pdo_pgsql
       - SYMFONY__ENV__DATABASE_HOST=db
@@ -21,3 +22,4 @@ services:
     environment:
       - POSTGRES_PASSWORD=my-secret-pw
       - POSTGRES_USER=my-super-user
+      - POSTGRES_DB=${POSTGRES_DB:-my-super-user}
