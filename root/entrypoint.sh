@@ -93,7 +93,7 @@ provisioner() {
         fi
     fi
 
-    # Remove cache and install Wallabag
+    # Remove cache and install wallabag
     rm -f -r /var/www/wallabag/var/cache
     su -c "SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist" -s /bin/sh nobody
 }
