@@ -67,6 +67,9 @@ COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 COPY root /
 
+# wallabag 2.7 reads the environment from APP_ENV
+ENV APP_ENV=prod
+
 RUN set -ex \
  && curl -L -o /tmp/wallabag.tar.gz https://github.com/wallabag/wallabag/releases/download/$WALLABAG_VERSION/wallabag-$WALLABAG_VERSION.tar.gz \
  && tar xvf /tmp/wallabag.tar.gz -C /tmp \
@@ -76,7 +79,7 @@ RUN set -ex \
  && cd /var/www/wallabag \
  && mkdir data/assets \
  && envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml \
- && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist --no-progress \
+ && composer install --no-dev -o --prefer-dist --no-progress \
  && rm -rf /root/.composer/* /var/www/wallabag/var/cache/* /var/www/wallabag/var/logs/* /var/www/wallabag/var/sessions/* \
  && chown -R nobody:nobody /var/www/wallabag
 
