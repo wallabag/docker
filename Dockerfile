@@ -26,6 +26,7 @@ RUN set -ex \
       php82-ctype \
       php82-curl \
       php82-dom \
+      php82-fileinfo \
       php82-fpm \
       php82-gd \
       php82-gettext \
