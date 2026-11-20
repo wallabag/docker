@@ -26,6 +26,8 @@ jobs:
             postgres_version: "15"
           - database: "postgresql"
             postgres_version: "18"
+          - database: "postgresql-secret"
+          - database: "mariadb-secret"
 
     env:
       POSTGRES_VERSION: ${{ matrix.postgres_version }}

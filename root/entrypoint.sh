@@ -2,6 +2,13 @@
 # Exit when any command fails
 set -e
 
+for file_var in $(LC_ALL=C awk 'BEGIN { for (name in ENVIRON) if (name ~ /^[A-Za-z_][A-Za-z0-9_]*__FILE$/) print name }'); do
+    # Only validated variable names reach eval, never file paths or contents.
+    eval "file_path=\${$file_var}"
+    file_content="$(cat -- "$file_path")"
+    export "${file_var%__FILE}=$file_content"
+done
+
 COMMAND_ARG1="$1"
 COMMAND_ARG2="$2"
 
@@ -27,7 +34,7 @@ provisioner() {
     SQLITE_DB_FILEPATH="$SQLITE_DB_DIR/wallabag.sqlite"
 
     # Replace environment variables
-    envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml
+    php /etc/wallabag/render-parameters.php > app/config/parameters.yml
     envsubst < /etc/wallabag/php-wallabag.template.ini > /etc/php82/conf.d/50_wallabag.ini
 
     # Wait for external database
@@ -60,8 +67,7 @@ provisioner() {
             USER_EXISTS="$(mysql -h "${SYMFONY__ENV__DATABASE_HOST}" --port "${SYMFONY__ENV__DATABASE_PORT}" -uroot -p"${MYSQL_ROOT_PASSWORD}" \
                 -sse "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$SYMFONY__ENV__DATABASE_USER')")"
             if [ "$USER_EXISTS" != "1" ]; then
-                mysql -h "${SYMFONY__ENV__DATABASE_HOST}" --port "${SYMFONY__ENV__DATABASE_PORT}" -uroot -p"${MYSQL_ROOT_PASSWORD}" \
-                    -e "CREATE USER IF NOT EXISTS '${SYMFONY__ENV__DATABASE_USER}'@'%' IDENTIFIED BY '${SYMFONY__ENV__DATABASE_PASSWORD}';"
+                php /etc/wallabag/create-mysql-user.php
                 mysql -h "${SYMFONY__ENV__DATABASE_HOST}" --port "${SYMFONY__ENV__DATABASE_PORT}" -uroot -p"${MYSQL_ROOT_PASSWORD}" \
                     -e "GRANT ALL PRIVILEGES ON ${SYMFONY__ENV__DATABASE_NAME}.* TO '${SYMFONY__ENV__DATABASE_USER}'@'%';"
             fi
@@ -81,8 +87,12 @@ provisioner() {
             USER_EXISTS="$(psql -qAt -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
                 -c "SELECT 1 FROM pg_roles WHERE rolname = '${SYMFONY__ENV__DATABASE_USER}';")"
             if [ "$USER_EXISTS" != "1" ]; then
-                psql -q -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
-                    -c "CREATE ROLE ${SYMFONY__ENV__DATABASE_USER} with PASSWORD '${SYMFONY__ENV__DATABASE_PASSWORD}' LOGIN;"
+                SYMFONY__ENV__DATABASE_PASSWORD="${SYMFONY__ENV__DATABASE_PASSWORD:-}" \
+                psql -q -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" -v ON_ERROR_STOP=1 <<'SQL'
+\getenv wallabag_user SYMFONY__ENV__DATABASE_USER
+\getenv wallabag_password SYMFONY__ENV__DATABASE_PASSWORD
+CREATE ROLE :"wallabag_user" WITH PASSWORD :'wallabag_password' LOGIN;
+SQL
             fi
             psql -q -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
                 -c "CREATE DATABASE ${SYMFONY__ENV__DATABASE_NAME} OWNER ${SYMFONY__ENV__DATABASE_USER};"

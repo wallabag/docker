@@ -74,7 +74,7 @@ RUN set -ex \
  && rm -rf /tmp/wallabag* \
  && cd /var/www/wallabag \
  && mkdir data/assets \
- && envsubst < /etc/wallabag/parameters.template.yml > app/config/parameters.yml \
+ && php /etc/wallabag/render-parameters.php > app/config/parameters.yml \
  && SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist --no-progress \
  && rm -rf /root/.composer/* /var/www/wallabag/var/cache/* /var/www/wallabag/var/logs/* /var/www/wallabag/var/sessions/* \
  && chown -R nobody:nobody /var/www/wallabag
