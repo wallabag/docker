@@ -9,7 +9,7 @@ FROM golang:alpine AS builder
 # flag -ldflags "-s -w" produces a smaller executable
 RUN go install -ldflags "-s -w" -v github.com/a8m/envsubst/cmd/envsubst@v1.4.3
 
-FROM alpine:3.22
+FROM alpine:3.24
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
@@ -21,43 +21,43 @@ RUN set -ex \
       libwebp \
       nginx \
       pcre \
-      php82 \
-      php82-bcmath \
-      php82-ctype \
-      php82-curl \
-      php82-dom \
-      php82-fpm \
-      php82-gd \
-      php82-gettext \
-      php82-iconv \
-      php82-json \
-      php82-mbstring \
-      php82-opcache \
-      php82-openssl \
-      php82-pecl-amqp \
-      php82-pecl-imagick \
-      php82-pdo_mysql \
-      php82-pdo_pgsql \
-      php82-pdo_sqlite \
-      php82-phar \
-      php82-session \
-      php82-simplexml \
-      php82-tokenizer \
-      php82-xml \
-      php82-zlib \
-      php82-sockets \
-      php82-xmlreader \
-      php82-tidy \
-      php82-intl \
-      php82-sodium \
+      php83 \
+      php83-bcmath \
+      php83-ctype \
+      php83-curl \
+      php83-dom \
+      php83-fpm \
+      php83-gd \
+      php83-gettext \
+      php83-iconv \
+      php83-json \
+      php83-mbstring \
+      php83-opcache \
+      php83-openssl \
+      php83-pecl-amqp \
+      php83-pecl-imagick \
+      php83-pdo_mysql \
+      php83-pdo_pgsql \
+      php83-pdo_sqlite \
+      php83-phar \
+      php83-session \
+      php83-simplexml \
+      php83-tokenizer \
+      php83-xml \
+      php83-zlib \
+      php83-sockets \
+      php83-xmlreader \
+      php83-tidy \
+      php83-intl \
+      php83-sodium \
       mariadb-client \
       postgresql17-client \
       rabbitmq-c \
       s6 \
       tar \
       tzdata \
- && ln -sf /usr/bin/php82 /usr/bin/php \
- && ln -sf /usr/sbin/php-fpm82 /usr/sbin/php-fpm \
+ && ln -sf /usr/bin/php83 /usr/bin/php \
+ && ln -sf /usr/sbin/php-fpm83 /usr/sbin/php-fpm \
  && rm -rf /var/cache/apk/* \
  && ln -sf /dev/stdout /var/log/nginx/access.log \
  && ln -sf /dev/stderr /var/log/nginx/error.log
