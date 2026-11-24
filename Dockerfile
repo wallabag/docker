@@ -74,8 +74,7 @@ ENV APP_ENV=prod
 RUN set -ex \
  && curl -L -o /tmp/wallabag.tar.gz https://github.com/wallabag/wallabag/releases/download/$WALLABAG_VERSION/wallabag-$WALLABAG_VERSION.tar.gz \
  && tar xvf /tmp/wallabag.tar.gz -C /tmp \
- && mkdir /var/www/wallabag \
- && mv /tmp/wallabag-*/* /var/www/wallabag/ \
+ && mv /tmp/wallabag-$WALLABAG_VERSION /var/www/wallabag \
  && rm -rf /tmp/wallabag* \
  && cd /var/www/wallabag \
  && mkdir data/assets \
