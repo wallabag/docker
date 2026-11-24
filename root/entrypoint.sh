@@ -74,6 +74,7 @@ provisioner() {
     # Configure Postgres database
     if [ "$SYMFONY__ENV__DATABASE_DRIVER" = "pdo_pgsql" ] && [ "$POPULATE_DATABASE" = "True" ] && [ "$POSTGRES_PASSWORD" != "" ] ; then
         export PGPASSWORD="${POSTGRES_PASSWORD}"
+        export PGDATABASE="${PGDATABASE:-${POSTGRES_DB:-${POSTGRES_USER}}}"
         DATABASE_EXISTS="$(psql -qAt -h "${SYMFONY__ENV__DATABASE_HOST}" -p "${SYMFONY__ENV__DATABASE_PORT}" -U "${POSTGRES_USER}" \
             -c "SELECT 1 FROM pg_catalog.pg_database WHERE datname = '${SYMFONY__ENV__DATABASE_NAME}';")"
         if [ "$DATABASE_EXISTS" != "1" ]; then
@@ -92,7 +93,7 @@ provisioner() {
         fi
     fi
 
-    # Remove cache and install Wallabag
+    # Remove cache and install wallabag
     rm -f -r /var/www/wallabag/var/cache
     su -c "SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist" -s /bin/sh nobody
 }
