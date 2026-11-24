@@ -45,6 +45,7 @@ RUN set -ex \
       php82-simplexml \
       php82-tokenizer \
       php82-xml \
+      php82-zip \
       php82-zlib \
       php82-sockets \
       php82-xmlreader \
