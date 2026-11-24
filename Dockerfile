@@ -13,7 +13,7 @@ FROM alpine:3.22
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
-ARG WALLABAG_VERSION=2.7.0-alpha.1
+ARG WALLABAG_VERSION=2.7.0-alpha.2
 
 RUN set -ex \
  && apk add --no-cache \
@@ -45,6 +45,7 @@ RUN set -ex \
       php82-simplexml \
       php82-tokenizer \
       php82-xml \
+      php82-zip \
       php82-zlib \
       php82-sockets \
       php82-xmlreader \
@@ -73,8 +74,7 @@ ENV APP_ENV=prod
 RUN set -ex \
  && curl -L -o /tmp/wallabag.tar.gz https://github.com/wallabag/wallabag/releases/download/$WALLABAG_VERSION/wallabag-$WALLABAG_VERSION.tar.gz \
  && tar xvf /tmp/wallabag.tar.gz -C /tmp \
- && mkdir /var/www/wallabag \
- && mv /tmp/wallabag-*/* /var/www/wallabag/ \
+ && mv /tmp/wallabag-$WALLABAG_VERSION /var/www/wallabag \
  && rm -rf /tmp/wallabag* \
  && cd /var/www/wallabag \
  && mkdir data/assets \
