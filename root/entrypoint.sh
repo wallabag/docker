@@ -99,6 +99,15 @@ provisioner() {
 
 if [ "$COMMAND_ARG1" = "wallabag" ]; then
     echo "Starting wallabag ..."
+    # Only allow duration characters; nginx -t validates the actual syntax.
+    case "${FASTCGI_READ_TIMEOUT:-300s}" in
+        *[!0-9yMwdhms]*)
+            echo "ERROR: FASTCGI_READ_TIMEOUT must be a Nginx duration (e.g. 300s or 15m)." >&2
+            exit 1
+            ;;
+    esac
+    envsubst < /etc/wallabag/fastcgi-read-timeout.template.conf > /etc/wallabag/fastcgi-read-timeout.conf
+    nginx -t
     provisioner
     echo "wallabag is ready!"
     exec s6-svscan /etc/s6/
